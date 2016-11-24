@@ -1,6 +1,7 @@
 // npm install
 var express = require('express');
 var mongoose = require('mongoose');
+var bodyParser = require('body-parser');
 
 // DB Schema
 var User = require('./model/User');
@@ -21,6 +22,8 @@ app.all('*', function(req, res, next) {
   next();
 });
 
+app.use(bodyParser.json({limit: '10mb'}));
+app.use(bodyParser.urlencoded({limit: '10mb', extended: true }));
 app.use(express.static('../frontend'));
 
 app.use('/user', userRoute);

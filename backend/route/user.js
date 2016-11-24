@@ -11,7 +11,7 @@ var parseUrlencoded = bodyParser.urlencoded({
 // mongoose.createConnection('mongodb://localhost/foodbank');
 
 router.route('/login/:account')
-  .get(parseUrlencoded, function(request, response) {
+  .get(function(request, response) {
     // For temporary testing
     var accountDetail = {
       account: request.params.account,
@@ -19,7 +19,22 @@ router.route('/login/:account')
       permission: "Admin"
     }
     response.send(accountDetail);
-  });
+  })
+  .post(function(request, response) {
+    if (request.body.password != "foodbank") {
+      response.status(404);
+      response.send({
+        error: "Login fails : Invalid account or wrong password"
+      });
+    } else {
+      var accountDetail = {
+        account: request.params.account,
+        name: request.params.account,
+        permission: "Admin"
+      }
+      response.send(accountDetail);
+    }
+  })
 
 
 module.exports = router;
