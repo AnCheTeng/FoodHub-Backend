@@ -5,13 +5,15 @@ var bodyParser = require('body-parser');
 
 // DB Schema
 var User = require('./model/User');
+var Donations = require('./model/Donation');
 
 // route
 var userRoute = require('./route/user')
+var donationRoute = require('./route/donation')
 
 var app = express();
 
-// mongoose.connect('mongodb://localhost/foodbank');
+mongoose.connect('mongodb://localhost/foodbank');
 
 console.log("===========================Server is starting===========================");
 
@@ -27,6 +29,7 @@ app.use(bodyParser.urlencoded({limit: '10mb', extended: true }));
 app.use(express.static('../frontend'));
 
 app.use('/user', userRoute);
+app.use('/donation', donationRoute);
 
 app.get('/', function(request, response) {
   console.log('Hi, we are foodbank!');

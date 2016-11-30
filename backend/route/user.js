@@ -4,11 +4,8 @@ var mongoose = require('mongoose');
 var User = require('../model/User');
 
 var router = express.Router();
-var parseUrlencoded = bodyParser.urlencoded({
-  extended: false
-});
 
-// mongoose.createConnection('mongodb://localhost/foodbank');
+mongoose.createConnection('mongodb://localhost/foodbank');
 
 router.route('/login/:account')
   .get(function(request, response) {

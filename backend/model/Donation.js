@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var Purchase = new Schema({
+var Donation = new Schema({
   D_serial: String,
   donor_name: String,
   item_name: String,
@@ -16,4 +16,4 @@ var Purchase = new Schema({
   versionKey: false
 });
 
-module.exports = mongoose.model('Purchase', Purchase);
+module.exports = mongoose.model('Donation', Donation);
