@@ -9,7 +9,6 @@ var Donee = new Schema({
   email: String,
   address: String,
   contact: String,
-  area: String,
   category: String,
   house: Number,
   people: Number,

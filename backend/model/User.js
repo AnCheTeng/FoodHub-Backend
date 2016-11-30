@@ -8,10 +8,7 @@ var User = new Schema({
   area: String,
   auth: Number,
   account: String,
-  pw: String,
-  create_dt: Date,
-  update_dt: Date,
-  delete_dt: Date
+  pw: String
 }, {
   versionKey: false
 });
