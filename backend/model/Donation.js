@@ -7,7 +7,7 @@ var Donation = new Schema({
   item_name: String,
   expire_dt: Date,
   category: String,
-  weight: String,
+  weight: Number,
   item_unit: String,
   item_qt: Number,
   memo: String,
