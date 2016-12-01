@@ -2,6 +2,7 @@
 [Bb]in
 [Tt]emp
 node_modules
+frontend
 *.user
 *.suo
 *.[Cc]ache

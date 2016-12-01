@@ -7,7 +7,6 @@ var router = express.Router();
 
 mongoose.createConnection('mongodb://localhost/foodbank');
 
-
 function pad(num, size) {
     var s = num + "";
     while (s.length < size) s = "0" + s;
@@ -17,6 +16,8 @@ function pad(num, size) {
 function errTest (err){
   if(err) console.log(err);
 }
+
+
 router.route('/donateItem/:itemId')
   .get(function(request, response) {
     response.send(request.params.itemId);
