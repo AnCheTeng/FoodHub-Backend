@@ -8,65 +8,100 @@ var router = express.Router();
 mongoose.createConnection('mongodb://localhost/foodbank');
 
 function pad(num, size) {
-    var s = num + "";
-    while (s.length < size) s = "0" + s;
-    return s;
+  var s = num + "";
+  while (s.length < size) s = "0" + s;
+  return s;
 }
 
-function errTest (err){
-  if(err) console.log(err);
+function errTest(err) {
+  if (err) console.log(err);
 }
 
+
+router.use('/donateItem/:itemId', function(req, res, next) {
+  // log
+  console.log('Request Type:', req.method);
+  console.log('Response URL:', req.originalUrl);
+  console.log("----------------------------------------");
+  next();
+}, function(req, res, next) {
+  // id-preprocess
+  next();
+});
 
 router.route('/donateItem/:itemId')
-  .get(function(request, response) {
-    response.send(request.params.itemId);
+  .get(function(req, res) {
+
+    var searchKey = (req.body.searchKey == "id" ? "_id"
+                     : req.body.searchKey);
+    var searchName = (req.body.searchKey == "id" ? pad(req.params.itemId, 24)
+                     : req.params.itemId);
+    var itemQuery = {};
+    itemQuery[searchKey] = searchName;
+
+    Donation.find(itemQuery).exec(function(err, result) {
+      if (result) {
+        res.status(200).send(result);
+      } else {
+        res.status(404).send({
+          error: "Item not found",
+          searchKey: req.body.searchKey,
+          searchName: req.params.itemId,
+          theQuery: itemQuery
+        });
+      }
+    });
   })
-  .post(function(request, response) {
-    console.log("POST /donateItem/:itemId");
+  .post(function(req, res) {
+    req.params.itemId = pad(req.params.itemId, 24);
 
-    request.params.itemId = pad(request.params.itemId, 24);
-    request.body.expiryDate = Date.parse(request.body.expiryDate);
-    request.body.donateDate = Date.parse(request.body.donateDate);
-    request.body.weight = parseInt(request.body.weight);
-    request.body.quantity = parseInt(request.body.quantity);
+    req.body.expiryDate = Date.parse(req.body.expiryDate);
+    req.body.donateDate = Date.parse(req.body.donateDate);
+    req.body.weight = parseInt(req.body.weight);
+    req.body.quantity = parseInt(req.body.quantity);
 
-    var safetyCheck = isNaN(request.body.expiryDate) || isNaN(request.body.donateDate)
-                      || isNaN(request.body.weight) || isNaN(request.body.quantity);
+    var safetyCheck = isNaN(req.body.expiryDate) || isNaN(req.body.donateDate) ||
+      isNaN(req.body.weight) || isNaN(req.body.quantity);
 
-    if(safetyCheck == true) {
-      response.send({ error : "Something wrong with Date or quantity or weight" });
+    if (safetyCheck == true) {
+      res.status(404).send({
+        error: "Something wrong with Date or quantity or weight"
+      });
       return;
     }
 
     var newDonateItem = {
-      _id: new mongoose.Types.ObjectId(request.params.itemId),
-      D_serial: request.body.serialNumber,
-      donor_name: request.body.donater,
-      item_name: request.body.name,
-      expire_dt: request.body.expiryDate,
-      category: request.body.category,
-      weight: request.body.weight,
-      item_unit: request.body.unit,
-      item_qt: request.body.quantity,
-      memo: request.body.record,
-      donate_dt: request.body.donateDate
+      _id: new mongoose.Types.ObjectId(req.params.itemId),
+      D_serial: req.body.serialNumber,
+      donor_name: req.body.donater,
+      item_name: req.body.name,
+      expire_dt: req.body.expiryDate,
+      category: req.body.category,
+      weight: req.body.weight,
+      item_unit: req.body.unit,
+      item_qt: req.body.quantity,
+      memo: req.body.record,
+      donate_dt: req.body.donateDate
     };
 
     Donation.findOne({
-      _id: request.params.itemId
+      _id: req.params.itemId
     }).exec(function(err, result) {
-      if(result){
-        response.send({ error : "Something wrong with this Id: Duplicate" });
+      if (result) {
+        res.send({
+          error: "Something wrong with this Id: Duplicate"
+        });
       } else {
         var newDonation = new Donation(newDonateItem);
         newDonation.save(errTest);
-        response.send({ success : "New item has been created" });
+        res.send({
+          success: "New item has been created"
+        });
       }
     });
   })
-  .delete(function(request, response) {
-    response.send(request.params.itemId);
+  .delete(function(req, res) {
+    res.send(req.params.itemId);
   })
 
 
