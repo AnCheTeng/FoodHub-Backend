@@ -4,11 +4,8 @@ var request = require('request');
 // |API: POST /donateItem/:itemId           |
 // |========================================|
 
-request.get({
-  url: 'http://localhost:8080/donation/donateItem/1456761600000',
-  form: {
-    searchKey: "expire_dt"
-  }
+request.delete({
+  url: 'http://localhost:8080/donation/donateItem/10503002',
 }, function(error, response, body) {
   if(error != undefined){
     console.log(error);
@@ -16,6 +13,19 @@ request.get({
     console.log(body);
   }
 });
+
+// request.get({
+//   url: 'http://localhost:8080/donation/donateItem/160',
+//   form: {
+//     searchKey: "weight"
+//   }
+// }, function(error, response, body) {
+//   if(error != undefined){
+//     console.log(error);
+//   } else {
+//     console.log(body);
+//   }
+// });
 
 
 

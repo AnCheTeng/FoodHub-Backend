@@ -101,7 +101,18 @@ router.route('/donateItem/:itemId')
     });
   })
   .delete(function(req, res) {
-    res.send(req.params.itemId);
+    req.params.itemId = pad(req.params.itemId, 24);
+
+    Donation.findOne({
+      _id: req.params.itemId
+    }).exec(function(err, result) {
+      if (result) {
+        result.remove();
+        res.status(200).send({ success : "Item has been deleted" });
+      } else {
+        res.status(404).send({ error : "Item not found" });
+      }
+    });
   })
 
 
