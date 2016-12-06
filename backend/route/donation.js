@@ -3,6 +3,7 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var Donation = require('../model/Donation');
 var Stock = require('../model/Stock');
+var Barcode = require('../model/Barcode');
 
 var router = express.Router();
 
@@ -60,6 +61,7 @@ router.route('/donateItem/:itemId')
     req.body.donateDate = Date.parse(req.body.donateDate);
     req.body.weight = parseInt(req.body.weight);
     req.body.quantity = parseInt(req.body.quantity);
+    req.body.price = parseFloat(req.body.price);
 
     var safetyCheck = isNaN(req.body.expiryDate) || isNaN(req.body.donateDate) ||
       isNaN(req.body.weight) || isNaN(req.body.quantity);
@@ -84,8 +86,23 @@ router.route('/donateItem/:itemId')
       memo: req.body.record,
       donate_dt: req.body.donateDate
     };
+    var newStockItem = {
+      item_id: new mongoose.Types.ObjectId(req.params.itemId),
+      item_name: req.body.name,
+      item_unit: req.body.unit,
+      item_qt: req.body.quantity,
+      expiry_date: req.body.expiryDate,
+      donor_name: req.body.donater
+    }
+    var newBarcodeItem = {
+      item_id: new mongoose.Types.ObjectId(req.params.itemId),
+      bar_code: req.body.barcode,
+      item_name: req.body.name,
+      item_unit: req.body.unit,
+      item_unitprice: req.body.price
+    }
 
-    Donation.findOne({
+    var donationPromise = Donation.findOne({
       _id: req.params.itemId
     }).exec(function(err, result) {
       if (result) {
@@ -93,26 +110,33 @@ router.route('/donateItem/:itemId')
           error: "Something wrong with this Id: Duplicate"
         });
       } else {
-        Stock.findOne({
-          item_id: req.params.itemId
-        }).exec(function(err, result) {
-          var newDonation = new Donation(newDonateItem);
-          var newStock = new Stock({
-            item_id: new mongoose.Types.ObjectId(req.params.itemId),
-            item_name: req.body.name,
-            item_unit: req.body.unit,
-            item_qt: req.body.quantity,
-            expiry_date: req.body.expiryDate,
-            donor_name: req.body.donater
-          })
-          newDonation.save(errTest);
-          newStock.save(errTest);
-          res.send({
-            success: "New item has been created"
-          });
-        });
+        var newDonation = new Donation(newDonateItem);
+        newDonation.save(errTest);
       }
     });
+    var stockPromise = Stock.findOne({
+      item_id: req.params.itemId
+    }).exec(function(err, result) {
+      if(!result) {
+        var newStock = new Stock(newStockItem);
+        newStock.save(errTest);
+      }
+    });
+    var barcodePromise = Barcode.findOne({
+      item_id: req.params.itemId
+    }).exec(function(err, result) {
+      if(!result){
+        var newBarcode = new Barcode(newBarcodeItem);
+        newBarcode.save(errTest);
+      }
+    });
+
+    Promise.all([donationPromise, stockPromise, barcodePromise]).then(function(values){
+      res.send({
+        success: "New item has been created"
+      });
+    });
+
   })
   .delete(function(req, res) {
     req.params.itemId = pad(req.params.itemId, 24);
