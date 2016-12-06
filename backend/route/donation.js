@@ -2,6 +2,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var Donation = require('../model/Donation');
+var Stock = require('../model/Stock');
 
 var router = express.Router();
 
@@ -92,10 +93,23 @@ router.route('/donateItem/:itemId')
           error: "Something wrong with this Id: Duplicate"
         });
       } else {
-        var newDonation = new Donation(newDonateItem);
-        newDonation.save(errTest);
-        res.send({
-          success: "New item has been created"
+        Stock.findOne({
+          item_id: req.params.itemId
+        }).exec(function(err, result) {
+          var newDonation = new Donation(newDonateItem);
+          var newStock = new Stock({
+            item_id: new mongoose.Types.ObjectId(req.params.itemId),
+            item_name: req.body.name,
+            item_unit: req.body.unit,
+            item_qt: req.body.quantity,
+            expiry_date: req.body.expiryDate,
+            donor_name: req.body.donater
+          })
+          newDonation.save(errTest);
+          newStock.save(errTest);
+          res.send({
+            success: "New item has been created"
+          });
         });
       }
     });
@@ -108,7 +122,14 @@ router.route('/donateItem/:itemId')
     }).exec(function(err, result) {
       if (result) {
         result.remove();
-        res.status(200).send({ success : "Item has been deleted" });
+        Stock.findOne({
+          item_id: req.params.itemId
+        }).exec(function(err, result) {
+          if(result){
+            result.remove();
+          }
+          res.status(200).send({ success : "Item has been deleted" });
+        })
       } else {
         res.status(404).send({ error : "Item not found" });
       }
