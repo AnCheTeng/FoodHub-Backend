@@ -1,36 +1,43 @@
 var request = require('request');
+var serverUrl = "http://localhost:8080";
+
+
 
 // |========================================|
-// |API: POST /donateItem/:itemId           |
+// |API: GET /barcode/:barcode           |
 // |========================================|
+request.get({
+  url: serverUrl + '/barcode/13572468'
+}, callbackFunction);
 
-request.delete({
-  url: 'http://localhost:8080/donation/donateItem/10503002',
-}, function(error, response, body) {
-  if(error != undefined){
-    console.log(error);
-  } else {
-    console.log(body);
-  }
-});
 
+
+// |========================================|
+// |API: DELETE /donateItem/:itemId         |
+// |========================================|
+// // request.delete({
+// //   serverUrl + '/donation/10503002',
+// // }, callbackFunction);
+
+
+
+// // |========================================|
+// // |API: GET /donateItem/:itemId            |
+// // |========================================|
 // request.get({
-//   url: 'http://localhost:8080/donation/donateItem/160',
+//   url: serverUrl + '/donation/160',
 //   form: {
 //     searchKey: "weight"
 //   }
-// }, function(error, response, body) {
-//   if(error != undefined){
-//     console.log(error);
-//   } else {
-//     console.log(body);
-//   }
-// });
+// }, callbackFunction);
 
 
 
+// // |========================================|
+// // |API: POST /donateItem/:itemId           |
+// // |========================================|
 // request.post({
-//   url: 'http://localhost:8080/donation/donateItem/10503002',
+//   url: serverUrl + '/donation/10503002',
 //   form: {
 //     name: "開心果",
 //     serialNumber: 2938410,
@@ -47,10 +54,13 @@ request.delete({
 //     price: 200,
 //     barcode: "13572468"
 //   }
-// }, function(error, response, body) {
-//   if(error != undefined){
-//     console.log(error);
-//   } else {
-//     console.log(body);
-//   }
-// });
+// }, callbackFunction);
+
+
+function callbackFunction(error, response, body) {
+  if(error != undefined){
+    console.log(error);
+  } else {
+    console.log(body);
+  }
+}

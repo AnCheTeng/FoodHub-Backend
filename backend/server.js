@@ -6,10 +6,12 @@ var bodyParser = require('body-parser');
 // DB Schema
 var User = require('./model/User');
 var Donations = require('./model/Donation');
+var Barcode = require('./model/Barcode');
 
 // route
 var userRoute = require('./route/user')
 var donationRoute = require('./route/donation')
+var barcodeRoute = require('./route/barcode')
 
 var app = express();
 
@@ -30,6 +32,7 @@ app.use(express.static('../frontend'));
 
 app.use('/user', userRoute);
 app.use('/donation', donationRoute);
+app.use('/barcode', barcodeRoute);
 
 app.get('/', function(request, response) {
   console.log('Hi, we are foodbank!');

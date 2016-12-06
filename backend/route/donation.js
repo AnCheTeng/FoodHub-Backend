@@ -7,8 +7,6 @@ var Barcode = require('../model/Barcode');
 
 var router = express.Router();
 
-mongoose.createConnection('mongodb://localhost/foodbank');
-
 function pad(num, size) {
   var s = num + "";
   while (s.length < size) s = "0" + s;
@@ -20,7 +18,7 @@ function errTest(err) {
 }
 
 
-router.use('/donateItem/:itemId', function(req, res, next) {
+router.use('/:itemId', function(req, res, next) {
   // log
   console.log('Request Type:', req.method);
   console.log('Response URL:', req.originalUrl);
@@ -31,7 +29,7 @@ router.use('/donateItem/:itemId', function(req, res, next) {
   next();
 });
 
-router.route('/donateItem/:itemId')
+router.route('/:itemId')
   .get(function(req, res) {
 
     var searchKey = (req.body.searchKey == "id" ? "_id"
@@ -95,7 +93,6 @@ router.route('/donateItem/:itemId')
       donor_name: req.body.donater
     }
     var newBarcodeItem = {
-      item_id: new mongoose.Types.ObjectId(req.params.itemId),
       bar_code: req.body.barcode,
       item_name: req.body.name,
       item_unit: req.body.unit,
