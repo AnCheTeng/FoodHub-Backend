@@ -67,6 +67,7 @@ router.route('/:itemId')
       D_serial: req.body.serialNumber,
       donor_name: req.body.donater,
       item_name: req.body.name,
+      area: req.body.area,
       expire_dt: req.body.expiryDate,
       category: req.body.category,
       weight: req.body.weight,

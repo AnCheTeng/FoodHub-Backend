@@ -2,13 +2,13 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var User = new Schema({
-  name: String,
-  unit: String,
+  user_name: String,
+  user_unit: String,
   phone: String,
   area: String,
   auth: Number,
   account: String,
-  pw: String
+  password: String
 }, {
   versionKey: false
 });

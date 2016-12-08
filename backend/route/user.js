@@ -9,7 +9,7 @@ router.route('/login/:account')
   .post(function(req, res) {
     User.findOne({
       account: req.params.account,
-      pw: req.body.pw
+      password: req.body.pw
     }).exec(function(err, result) {
       if (result) {
         res.status(200).send({
@@ -49,12 +49,12 @@ router.route('/:account')
       account: req.params.account
     }).exec(function(err, result) {
       if (result) {
-        result.name = req.body.name;
-        result.unit = req.body.unit;
+        result.user_name = req.body.user_name;
+        result.user_unit = req.body.user_unit;
         result.phone = req.body.phone;
         result.area = req.body.area;
         result.auth = req.body.auth;
-        result.pw = req.body.pw;
+        result.password = req.body.password;
 
         result.save();
         res.status(200).send({

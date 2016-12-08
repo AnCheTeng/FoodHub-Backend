@@ -33,12 +33,12 @@ request.post({
 // request.post({
 //   url: serverUrl + '/user/zizi',
 //   form: {
-//     name: "Zizi",
-//     unit: "NCKU",
+//     user_name: "Zizi",
+//     user_unit: "NCKU",
 //     phone: "03-23456789",
 //     area: "ChiaYi",
 //     auth: 1,
-//     pw: "foodhub"
+//     password: "foodhub"
 //   }
 // }, callbackFunction);
 
@@ -88,7 +88,6 @@ request.post({
 //   url: serverUrl + '/donation/10503002',
 //   form: {
 //     name: "開心果",
-//     serialNumber: 2938410,
 //     category: "營養品",
 //     area: "台中",
 //     quantity: 5,
