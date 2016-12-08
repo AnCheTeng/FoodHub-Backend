@@ -2,6 +2,17 @@ var request = require('request');
 var serverUrl = "http://localhost:8080";
 
 
+// |========================================|
+// |API: POST /user/login                   |
+// |========================================|
+request.post({
+  url: serverUrl + '/user/login/zizi',
+  form: {
+    pw: "foodhublalala"
+  }
+}, callbackFunction);
+
+
 // // |========================================|
 // // |API: GET /user/list                     |
 // // |========================================|
@@ -31,12 +42,12 @@ var serverUrl = "http://localhost:8080";
 //   }
 // }, callbackFunction);
 
-// |========================================|
-// |API: DELETE /user/:account              |
-// |========================================|
-request.delete({
-  url: serverUrl + '/user/erica'
-}, callbackFunction);
+// // |========================================|
+// // |API: DELETE /user/:account              |
+// // |========================================|
+// request.delete({
+//   url: serverUrl + '/user/erica'
+// }, callbackFunction);
 
 
 

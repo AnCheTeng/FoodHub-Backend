@@ -7,7 +7,20 @@ var User = require('../model/User');
 
 router.route('/login/:account')
   .post(function(req, res) {
-
+    User.findOne({
+      account: req.params.account,
+      pw: req.body.pw
+    }).exec(function(err, result) {
+      if (result) {
+        res.status(200).send({
+          success: "Login successfully!"
+        })
+      } else {
+        res.status(404).send({
+          error: "Who are you?"
+        })
+      }
+    })
   })
 
 router.route('/list')
