@@ -2,15 +2,84 @@ var request = require('request');
 var serverUrl = "http://localhost:8080";
 
 
-// |========================================|
-// |API: POST /user/login                   |
-// |========================================|
-request.post({
-  url: serverUrl + '/user/login/zizi',
-  form: {
-    pw: "foodhublalala"
-  }
-}, callbackFunction);
+// // |========================================|
+// // |API: GET /donee/:donee_name             |
+// // |========================================|
+// request.get({
+//   url: serverUrl + '/donee/zizi'
+// }, callbackFunction);
+
+
+// // |========================================|
+// // |API: POST /donee/:donee_name            |
+// // |========================================|
+// request.post({
+//   url: serverUrl + '/donee/zizi',
+//   form: {
+//     phone: "0910345678",
+//     address: "我住在嘉義啦",
+//     area: "嘉義",
+//     category: "Foodhub",
+//     contact: "zizi",
+//     contact_phone: "0910345678",
+//     email: "zizi@gmail.com",
+//   }
+// }, callbackFunction);
+
+
+// // |========================================|
+// // |API: DELETE /donee/:donee_name          |
+// // |========================================|
+// request.delete({
+//   url: serverUrl + '/donee/zizi'
+// }, callbackFunction);
+
+
+
+
+// // |========================================|
+// // |API: GET /donor/:donor_name             |
+// // |========================================|
+// request.get({
+//   url: serverUrl + '/donor/zizi'
+// }, callbackFunction);
+
+// // |========================================|
+// // |API: POST /donor/:donor_name            |
+// // |========================================|
+// request.post({
+//   url: serverUrl + '/donor/zizi',
+//   form: {
+//     ic: "abcde",
+//     phone: "0910345678",
+//     address: "我住在嘉義啦",
+//     area: "嘉義",
+//     category: "Foodhub",
+//     contact: "zizi",
+//     contact_phone: "0910345678",
+//     email: "zizi@gmail.com",
+//   }
+// }, callbackFunction);
+
+// // |========================================|
+// // |API: DELETE /donor/:donor_name          |
+// // |========================================|
+// request.delete({
+//   url: serverUrl + '/donor/zizi'
+// }, callbackFunction);
+
+
+
+// // |========================================|
+// // |API: POST /user/login                   |
+// // |========================================|
+// request.post({
+//   url: serverUrl + '/user/login/zizi',
+//   form: {
+//     pw: "foodhublalala"
+//   }
+// }, callbackFunction);
+
 
 
 // // |========================================|
@@ -69,15 +138,12 @@ request.post({
 
 
 
-// // |========================================|
-// // |API: GET /donateItem/:itemId            |
-// // |========================================|
-// request.get({
-//   url: serverUrl + '/donation/' + encodeURI("開心果"),
-//   form: {
-//     searchKey: "item_name"
-//   }
-// }, callbackFunction);
+// |==============================================|
+// |API: GET /donateItem/:searchName?searchKey=xxx|
+// |==============================================|
+request.get({
+  url: serverUrl + '/donation/' + encodeURI("開心果")+'?searchKey=item_name'
+}, callbackFunction);
 
 
 

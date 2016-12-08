@@ -3,14 +3,14 @@ var Schema = mongoose.Schema;
 
 var Donor = new Schema({
   ic: String,
-  name: String,
+  donor_name: String,
   phone: String,
-  mobile: String,
-  email: String,
   address: String,
-  contact: String,
   area: String,
-  category: String
+  category: String,
+  contact: String,
+  contact_phone: String,
+  email: String,
 }, {
   versionKey: false
 });

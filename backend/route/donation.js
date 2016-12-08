@@ -23,9 +23,9 @@ function errTest(err) {
 router.route('/:itemId')
   .get(function(req, res) {
 
-    var searchKey = (req.body.searchKey == "id" ? "_id"
-                     : req.body.searchKey);
-    var searchName = (req.body.searchKey == "id" ? pad(req.params.itemId, 24)
+    var searchKey = (req.query.searchKey == "id" ? "_id"
+                     : req.query.searchKey);
+    var searchName = (req.query.searchKey == "id" ? pad(req.params.itemId, 24)
                      : decodeURI(req.params.itemId));
     var itemQuery = {};
     itemQuery[searchKey] = searchName;
@@ -36,7 +36,7 @@ router.route('/:itemId')
       } else {
         res.status(404).send({
           error: "Item not found",
-          searchKey: req.body.searchKey,
+          searchKey: req.query.searchKey,
           searchName: req.params.itemId,
           theQuery: itemQuery
         });

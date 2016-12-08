@@ -7,11 +7,15 @@ var bodyParser = require('body-parser');
 var User = require('./model/User');
 var Donations = require('./model/Donation');
 var Barcode = require('./model/Barcode');
+var Donor = require('./model/Donor');
+var Donee = require('./model/Donee');
 
 // route
-var userRoute = require('./route/user')
-var donationRoute = require('./route/donation')
-var barcodeRoute = require('./route/barcode')
+var userRoute = require('./route/user');
+var donationRoute = require('./route/donation');
+var barcodeRoute = require('./route/barcode');
+var donorRoute = require('./route/donor');
+var doneeRoute = require('./route/donee');
 
 var app = express();
 
@@ -41,9 +45,12 @@ app.use(function(req, res, next) {
   next();
 });
 
+
 app.use('/user', userRoute);
 app.use('/donation', donationRoute);
 app.use('/barcode', barcodeRoute);
+app.use('/donor', donorRoute);
+app.use('/donee', doneeRoute);
 
 
 app.get('/', function(request, response) {

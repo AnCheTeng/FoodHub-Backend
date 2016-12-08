@@ -49,25 +49,15 @@ router.route('/:account')
       account: req.params.account
     }).exec(function(err, result) {
       if (result) {
-        result.user_name = req.body.user_name;
-        result.user_unit = req.body.user_unit;
-        result.phone = req.body.phone;
-        result.area = req.body.area;
-        result.auth = req.body.auth;
-        result.password = req.body.password;
-
-        result.save();
-        res.status(200).send({
-          success: "User has been updated!"
-        })
-      } else {
-        var newUser = new User(req.body);
-        newUser.account = req.params.account;
-        newUser.save();
-        res.status(200).send({
-          success: "User has been created!"
-        })
+        result.remove();
       }
+
+      var newUser = new User(req.body);
+      newUser.account = req.params.account;
+      newUser.save();
+      res.status(200).send({
+        success: "User has been created!"
+      })
     })
 
   })
