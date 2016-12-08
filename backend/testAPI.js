@@ -3,12 +3,12 @@ var serverUrl = "http://localhost:8080";
 
 
 
-// |========================================|
-// |API: GET /barcode/:barcode           |
-// |========================================|
-request.get({
-  url: serverUrl + '/barcode/13572468'
-}, callbackFunction);
+// // |========================================|
+// // |API: GET /barcode/:barcode           |
+// // |========================================|
+// request.get({
+//   url: serverUrl + '/barcode/13572468'
+// }, callbackFunction);
 
 
 
@@ -21,15 +21,15 @@ request.get({
 
 
 
-// // |========================================|
-// // |API: GET /donateItem/:itemId            |
-// // |========================================|
-// request.get({
-//   url: serverUrl + '/donation/160',
-//   form: {
-//     searchKey: "weight"
-//   }
-// }, callbackFunction);
+// |========================================|
+// |API: GET /donateItem/:itemId            |
+// |========================================|
+request.get({
+  url: serverUrl + '/donation/' + encodeURI("開心果"),
+  form: {
+    searchKey: "item_name"
+  }
+}, callbackFunction);
 
 
 

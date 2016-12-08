@@ -35,7 +35,7 @@ router.route('/:itemId')
     var searchKey = (req.body.searchKey == "id" ? "_id"
                      : req.body.searchKey);
     var searchName = (req.body.searchKey == "id" ? pad(req.params.itemId, 24)
-                     : req.params.itemId);
+                     : decodeURI(req.params.itemId));
     var itemQuery = {};
     itemQuery[searchKey] = searchName;
 
