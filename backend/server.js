@@ -30,9 +30,21 @@ app.use(bodyParser.json({limit: '10mb'}));
 app.use(bodyParser.urlencoded({limit: '10mb', extended: true }));
 app.use(express.static('../frontend'));
 
+app.use(function(req, res, next) {
+  // log
+  console.log('Request Type:', req.method);
+  console.log('Response URL:', req.originalUrl);
+  console.log("----------------------------------------");
+  next();
+}, function(req, res, next) {
+  // id-preprocess
+  next();
+});
+
 app.use('/user', userRoute);
 app.use('/donation', donationRoute);
 app.use('/barcode', barcodeRoute);
+
 
 app.get('/', function(request, response) {
   console.log('Hi, we are foodbank!');

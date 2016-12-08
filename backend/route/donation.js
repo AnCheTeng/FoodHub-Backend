@@ -1,11 +1,11 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
+var router = express.Router();
+
 var Donation = require('../model/Donation');
 var Stock = require('../model/Stock');
 var Barcode = require('../model/Barcode');
-
-var router = express.Router();
 
 function pad(num, size) {
   var s = num + "";
@@ -18,16 +18,7 @@ function errTest(err) {
 }
 
 
-router.use('/:itemId', function(req, res, next) {
-  // log
-  console.log('Request Type:', req.method);
-  console.log('Response URL:', req.originalUrl);
-  console.log("----------------------------------------");
-  next();
-}, function(req, res, next) {
-  // id-preprocess
-  next();
-});
+
 
 router.route('/:itemId')
   .get(function(req, res) {
