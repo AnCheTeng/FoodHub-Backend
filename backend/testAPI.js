@@ -21,40 +21,40 @@ var serverUrl = "http://localhost:8080";
 
 
 
-// |========================================|
-// |API: GET /donateItem/:itemId            |
-// |========================================|
-request.get({
-  url: serverUrl + '/donation/' + encodeURI("開心果"),
-  form: {
-    searchKey: "item_name"
-  }
-}, callbackFunction);
-
-
-
 // // |========================================|
-// // |API: POST /donateItem/:itemId           |
+// // |API: GET /donateItem/:itemId            |
 // // |========================================|
-// request.post({
-//   url: serverUrl + '/donation/10503002',
+// request.get({
+//   url: serverUrl + '/donation/' + encodeURI("開心果"),
 //   form: {
-//     name: "開心果",
-//     serialNumber: 2938410,
-//     category: "營養品",
-//     area: "台中",
-//     quantity: 5,
-//     unit: "盒",
-//     weight: 150,
-//     donateDate: "2016/02/20",
-//     expiryDate: "2016/03/01",
-//     donater: "boss",
-//     record: "描述物品",
-//     barcode: "29384918 54239485",
-//     price: 200,
-//     barcode: "13572468"
+//     searchKey: "item_name"
 //   }
 // }, callbackFunction);
+
+
+
+// |========================================|
+// |API: POST /donateItem/:itemId           |
+// |========================================|
+request.post({
+  url: serverUrl + '/donation/10503002',
+  form: {
+    name: "開心果",
+    serialNumber: 2938410,
+    category: "營養品",
+    area: "台中",
+    quantity: 5,
+    unit: "盒",
+    weight: 150,
+    donateDate: "2016/02/20",
+    expiryDate: "2016/03/01",
+    donater: "boss",
+    record: "描述物品",
+    barcode: "29384918 54239485",
+    price: 200,
+    barcode: "13572468"
+  }
+}, callbackFunction);
 
 
 function callbackFunction(error, response, body) {

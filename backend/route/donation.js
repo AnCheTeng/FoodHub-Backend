@@ -54,7 +54,7 @@ router.route('/:itemId')
   })
   .post(function(req, res) {
     req.params.itemId = pad(req.params.itemId, 24);
-
+    console.log(req.body);
     req.body.expiryDate = Date.parse(req.body.expiryDate);
     req.body.donateDate = Date.parse(req.body.donateDate);
     req.body.weight = parseInt(req.body.weight);
@@ -93,7 +93,7 @@ router.route('/:itemId')
       donor_name: req.body.donater
     }
     var newBarcodeItem = {
-      bar_code: req.body.barcode,
+      barcode: req.body.barcode,
       item_name: req.body.name,
       item_unit: req.body.unit,
       item_unitprice: req.body.price
