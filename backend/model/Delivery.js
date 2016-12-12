@@ -2,18 +2,14 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var Delivery = new Schema({
-  R_serial: String,
-  R_name: String,
-  R_dt: Date,
-  R_man: String,
-  R_unit: Number,
-  unit: String,
-  R_unit: String,
-  Quantity: Number,
-  type: String,
-  memo: String,
-  create_dt: Date,
-  update_dt: Date
+  ic: String,
+  item_name: String,
+  item_unit: String,
+  donate_dt: Date,
+  print_dt: Date,
+  expire_dt Date,
+  qt: Number,
+  memo: String
 }, {
   versionKey: false
 });

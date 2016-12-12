@@ -23,9 +23,8 @@ function errTest(err) {
 router.route('/:itemId')
   .get(function(req, res) {
 
-    var searchKey = (req.query.searchKey == "id" ? "_id"
-                     : req.query.searchKey);
-    var searchName = (req.query.searchKey == "id" ? pad(req.params.itemId, 24)
+    var searchKey = req.query.searchKey;
+    var searchName = (req.query.searchKey == "_id" ? pad(req.params.itemId, 24)
                      : decodeURI(req.params.itemId));
     var itemQuery = {};
     itemQuery[searchKey] = searchName;
@@ -45,15 +44,15 @@ router.route('/:itemId')
   })
   .post(function(req, res) {
     req.params.itemId = pad(req.params.itemId, 24);
-    console.log(req.body);
-    req.body.expiryDate = Date.parse(req.body.expiryDate);
-    req.body.donateDate = Date.parse(req.body.donateDate);
+    // console.log(req.body);
+    // req.body.expiryDate = Date.parse(req.body.expiryDate);
+    // req.body.donateDate = Date.parse(req.body.donateDate);
     req.body.weight = parseInt(req.body.weight);
-    req.body.quantity = parseInt(req.body.quantity);
-    req.body.price = parseFloat(req.body.price);
+    req.body.quantity = parseInt(req.body.item_qt);
+    req.body.price = parseFloat(req.body.item_unitprice);
 
-    var safetyCheck = isNaN(req.body.expiryDate) || isNaN(req.body.donateDate) ||
-      isNaN(req.body.weight) || isNaN(req.body.quantity);
+    var safetyCheck = isNaN(req.body.expire_dt) || isNaN(req.body.donate_dt) ||
+      isNaN(req.body.weight) || isNaN(req.body.item_qt);
 
     if (safetyCheck == true) {
       res.status(404).send({
@@ -64,31 +63,30 @@ router.route('/:itemId')
 
     var newDonateItem = {
       _id: new mongoose.Types.ObjectId(req.params.itemId),
-      D_serial: req.body.serialNumber,
-      donor_name: req.body.donater,
-      item_name: req.body.name,
+      donor_name: req.body.donor_name,
+      item_name: req.body.item_name,
       area: req.body.area,
-      expire_dt: req.body.expiryDate,
+      expire_dt: req.body.expire_dt,
       category: req.body.category,
       weight: req.body.weight,
-      item_unit: req.body.unit,
-      item_qt: req.body.quantity,
-      memo: req.body.record,
-      donate_dt: req.body.donateDate
+      item_unit: req.body.item_unit,
+      item_qt: req.body.item_qt,
+      memo: req.body.item_qt,
+      donate_dt: req.body.donate_dt
     };
     var newStockItem = {
       item_id: new mongoose.Types.ObjectId(req.params.itemId),
-      item_name: req.body.name,
-      item_unit: req.body.unit,
-      item_qt: req.body.quantity,
-      expiry_date: req.body.expiryDate,
-      donor_name: req.body.donater
+      item_name: req.body.item_name,
+      item_unit: req.body.item_unit,
+      item_qt: req.body.item_qt,
+      expiry_date: req.body.expiry_date,
+      donor_name: req.body.donor_name
     }
     var newBarcodeItem = {
       barcode: req.body.barcode,
-      item_name: req.body.name,
-      item_unit: req.body.unit,
-      item_unitprice: req.body.price
+      item_name: req.body.item_name,
+      item_unit: req.body.item_unit,
+      item_unitprice: req.body.item_unitprice
     }
 
     var donationPromise = Donation.findOne({
