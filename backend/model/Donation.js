@@ -6,13 +6,13 @@ var Donation = new Schema({
   donor_name: String,
   item_name: String,
   area: String,
-  expire_dt: Date,
+  expire_dt: Number,
   category: String,
   weight: Number,
   item_unit: String,
   item_qt: Number,
   memo: String,
-  donate_dt: Date,
+  donate_dt: Number,
 }, {
   versionKey: false
 });

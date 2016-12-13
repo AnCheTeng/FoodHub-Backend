@@ -5,9 +5,9 @@ var Delivery = new Schema({
   ic: String,
   item_name: String,
   item_unit: String,
-  donate_dt: Date,
-  print_dt: Date,
-  expire_dt Date,
+  donate_dt: Number,
+  print_dt: Number,
+  expire_dt Number,
   qt: Number,
   memo: String
 }, {
