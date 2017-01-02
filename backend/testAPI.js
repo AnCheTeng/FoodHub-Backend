@@ -90,26 +90,31 @@ var serverUrl = "http://localhost:8080";
 // }, callbackFunction);
 
 // // |========================================|
-// // |API: GET /user/:account                 |
+// // |API: GET /user/:account?searchKey=xxx   |
 // // |========================================|
 // request.get({
-//   url: serverUrl + '/user/zizi'
+//   url: serverUrl + '/user/zizi?searchKey=account'
+// }, callbackFunction);
+//
+// request.get({
+//   url: serverUrl + '/user/ChiaYi?searchKey=area'
 // }, callbackFunction);
 
-// |========================================|
-// |API: POST /user/:account                |
-// |========================================|
-request.post({
-  url: serverUrl + '/user/zizi',
-  form: {
-    user_name: "Zizi",
-    user_unit: "NCKU",
-    phone: "03-23456789",
-    area: "ChiaYi",
-    auth: "user",
-    password: "foodhub"
-  }
-}, callbackFunction);
+
+// // |========================================|
+// // |API: POST /user/:account                |
+// // |========================================|
+// request.post({
+//   url: serverUrl + '/user/zizi',
+//   form: {
+//     user_name: "Zizi",
+//     user_unit: "NCKU",
+//     phone: "03-23456789",
+//     area: "ChiaYi",
+//     auth: "user",
+//     password: "foodhub"
+//   }
+// }, callbackFunction);
 
 // // |========================================|
 // // |API: DELETE /user/:account              |

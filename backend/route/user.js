@@ -32,17 +32,24 @@ router.route('/list')
 
 router.route('/:account')
   .get(function(req, res) {
-    User.findOne({
-      account: req.params.account
-    }).exec(function(err, result) {
+
+    var searchKey = req.query.searchKey;
+    var searchName = decodeURI(req.params.account);
+    var userQuery = {};
+    userQuery[searchKey] = searchName;
+
+    User.find(userQuery).exec(function(err, result) {
       if (result) {
         res.status(200).send(result);
       } else {
-        res.status(400).send({
-          error: "User " + req.params.account + " not found!"
+        res.status(404).send({
+          error: "User not found",
+          searchKey: req.query.searchKey,
+          searchName: req.params.account,
+          theQuery: userQuery
         });
       }
-    })
+    });
   })
   .post(function(req, res) {
     User.findOne({
