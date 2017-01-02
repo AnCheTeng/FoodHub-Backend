@@ -101,13 +101,11 @@ router.route('/:itemId')
     var stockPromise = Stock.findOne({
       item_id: req.params.itemId
     }).exec(function(err, result) {
-      if(!result) {
-        var newStock = new Stock(newStockItem);
-        newStock.save(errTest);
-      } else {
-        result = newStockItem;
-        result.save();
+      if (result) {
+        result.remove();
       }
+      var newStock = new Stock(newStockItem);
+      newStock.save(errTest);
     });
     var barcodePromise = Barcode.findOne({
       item_id: req.params.itemId
