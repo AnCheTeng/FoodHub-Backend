@@ -3,6 +3,13 @@ var serverUrl = "http://localhost:8080";
 
 
 // // |========================================|
+// // |API: GET /donee/list                    |
+// // |========================================|
+// request.get({
+//   url: serverUrl + '/donee/list'
+// }, callbackFunction);
+
+// // |========================================|
 // // |API: GET /donee/:donee_name             |
 // // |========================================|
 // request.get({
@@ -35,7 +42,12 @@ var serverUrl = "http://localhost:8080";
 // }, callbackFunction);
 
 
-
+// // |========================================|
+// // |API: GET /donor/list                    |
+// // |========================================|
+// request.get({
+//   url: serverUrl + '/donor/list'
+// }, callbackFunction);
 
 // // |========================================|
 // // |API: GET /donor/:donor_name             |
@@ -146,9 +158,9 @@ var serverUrl = "http://localhost:8080";
 // |==============================================|
 // |API: GET /donateItem/:searchName?searchKey=xxx|
 // |==============================================|
-// request.get({
-//   url: serverUrl + '/donation/' + encodeURI("開心果")+'?searchKey=item_name'
-// }, callbackFunction);
+request.get({
+  url: serverUrl + '/donation/' + encodeURI("開心果")+'?searchKey=item_name'
+}, callbackFunction);
 
 
 

@@ -5,11 +5,12 @@ var Donee = new Schema({
   donee_name: String,
   phone: String,
   address: String,
-  area: String,
   category: String,
   contact: String,
   contact_phone: String,
-  email: String
+  email: String,
+  house_num: Number,
+  people_num: Number
 }, {
   versionKey: false
 });
