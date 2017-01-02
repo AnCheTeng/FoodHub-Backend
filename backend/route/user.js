@@ -52,12 +52,19 @@ router.route('/:account')
         result.remove();
       }
 
-      var newUser = new User(req.body);
-      newUser.account = req.params.account;
-      newUser.save();
-      res.status(200).send({
-        success: "User has been created!"
-      })
+      if(req.body.auth=="admin" || req.body.auth=="user"){
+        var newUser = new User(req.body);
+        newUser.account = req.params.account;
+        newUser.save();
+        res.status(200).send({
+          success: "User has been created!"
+        });
+      } else {
+        res.status(400).send({
+          error: "Authentication can only be 'admin' or 'user'!"
+        });
+      }
+
     })
 
   })

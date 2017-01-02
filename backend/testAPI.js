@@ -96,20 +96,20 @@ var serverUrl = "http://localhost:8080";
 //   url: serverUrl + '/user/zizi'
 // }, callbackFunction);
 
-// // |========================================|
-// // |API: POST /user/:account                |
-// // |========================================|
-// request.post({
-//   url: serverUrl + '/user/zizi',
-//   form: {
-//     user_name: "Zizi",
-//     user_unit: "NCKU",
-//     phone: "03-23456789",
-//     area: "ChiaYi",
-//     auth: 1,
-//     password: "foodhub"
-//   }
-// }, callbackFunction);
+// |========================================|
+// |API: POST /user/:account                |
+// |========================================|
+request.post({
+  url: serverUrl + '/user/zizi',
+  form: {
+    user_name: "Zizi",
+    user_unit: "NCKU",
+    phone: "03-23456789",
+    area: "ChiaYi",
+    auth: "user",
+    password: "foodhub"
+  }
+}, callbackFunction);
 
 // // |========================================|
 // // |API: DELETE /user/:account              |
@@ -147,26 +147,26 @@ var serverUrl = "http://localhost:8080";
 
 
 
-// |========================================|
-// |API: POST /donateItem/:itemId           |
-// |========================================|
-request.post({
-  url: serverUrl + '/donation/10504002',
-  form: {
-    donor_name: "boss",
-    item_name: "開心果",
-    area: "台中",
-    expire_dt: Date.parse("2016/03/01"),
-    category: "營養品",
-    weight: 150,
-    item_unit: "盒",
-    item_qt: 5,
-    item_unitprice: 200,
-    memo: "描述物品",
-    donate_dt: Date.parse("2016/02/20"),
-    barcode: "13572468"
-  }
-}, callbackFunction);
+// // |========================================|
+// // |API: POST /donateItem/:itemId           |
+// // |========================================|
+// request.post({
+//   url: serverUrl + '/donation/10504002',
+//   form: {
+//     donor_name: "boss",
+//     item_name: "開心果",
+//     area: "台中",
+//     expire_dt: Date.parse("2016/03/01"),
+//     category: "營養品",
+//     weight: 150,
+//     item_unit: "盒",
+//     item_qt: 5,
+//     item_unitprice: 200,
+//     memo: "描述物品",
+//     donate_dt: Date.parse("2016/02/20"),
+//     barcode: "13572468"
+//   }
+// }, callbackFunction);
 
 
 function callbackFunction(error, response, body) {

@@ -6,7 +6,7 @@ var User = new Schema({
   user_unit: String,
   phone: String,
   area: String,
-  auth: Number,
+  auth: String,
   account: String,
   password: String
 }, {
