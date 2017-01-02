@@ -93,13 +93,10 @@ router.route('/:itemId')
       _id: req.params.itemId
     }).exec(function(err, result) {
       if (result) {
-        res.send({
-          error: "Something wrong with this Id: Duplicate"
-        });
-      } else {
-        var newDonation = new Donation(newDonateItem);
-        newDonation.save(errTest);
+        result.remove();
       }
+      var newDonation = new Donation(newDonateItem);
+      newDonation.save(errTest);
     });
     var stockPromise = Stock.findOne({
       item_id: req.params.itemId
@@ -107,6 +104,9 @@ router.route('/:itemId')
       if(!result) {
         var newStock = new Stock(newStockItem);
         newStock.save(errTest);
+      } else {
+        result = newStockItem;
+        result.save();
       }
     });
     var barcodePromise = Barcode.findOne({
