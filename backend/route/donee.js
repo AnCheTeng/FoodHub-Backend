@@ -14,17 +14,24 @@ router.route('/list')
 
 router.route('/:donee_name')
   .get(function(req, res) {
-    Donee.findOne({
-      donee_name: req.params.donee_name
-    }).exec(function(err, result) {
+
+    var searchKey = req.query.searchKey;
+    var searchName = decodeURI(req.params.donee_name);
+    var doneeQuery = {};
+    doneeQuery[searchKey] = searchName;
+
+    Donee.find(doneeQuery).exec(function(err, result) {
       if (result) {
         res.status(200).send(result);
       } else {
-        res.status(400).send({
-          error: "Donee " + req.params.donee_name + " not found!"
+        res.status(404).send({
+          error: "Donee not found",
+          searchKey: req.query.searchKey,
+          searchName: req.params.donee_name,
+          theQuery: doneeQuery
         });
       }
-    })
+    });
   })
   .post(function(req, res) {
     Donee.findOne({

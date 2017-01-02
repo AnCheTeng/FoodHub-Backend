@@ -14,17 +14,24 @@ router.route('/list')
 
 router.route('/:donor_name')
   .get(function(req, res) {
-    Donor.findOne({
-      donor_name: req.params.donor_name
-    }).exec(function(err, result) {
+
+    var searchKey = req.query.searchKey;
+    var searchName = decodeURI(req.params.donor_name);
+    var donorQuery = {};
+    donorQuery[searchKey] = searchName;
+
+    Donor.find(donorQuery).exec(function(err, result) {
       if (result) {
         res.status(200).send(result);
       } else {
-        res.status(400).send({
-          error: "Donor " + req.params.donor_name + " not found!"
+        res.status(404).send({
+          error: "Donor not found",
+          searchKey: req.query.searchKey,
+          searchName: req.params.donor_name,
+          theQuery: donorQuery
         });
       }
-    })
+    });
   })
   .post(function(req, res) {
     Donor.findOne({
@@ -33,7 +40,6 @@ router.route('/:donor_name')
       if (result) {
         result.remove();
       }
-
       var newDonor = new Donor(req.body);
       newDonor.donor_name = req.params.donor_name;
       newDonor.save();
@@ -41,7 +47,6 @@ router.route('/:donor_name')
         success: "Donor has been created!"
       })
     })
-
   })
   .delete(function(req, res) {
     Donor.findOne({
