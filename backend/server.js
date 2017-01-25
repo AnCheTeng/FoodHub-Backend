@@ -16,6 +16,7 @@ var donationRoute = require('./route/donation');
 var barcodeRoute = require('./route/barcode');
 var donorRoute = require('./route/donor');
 var doneeRoute = require('./route/donee');
+var stockRoute = require('./route/stock');
 
 var app = express();
 
@@ -51,6 +52,7 @@ app.use('/donation', donationRoute);
 app.use('/barcode', barcodeRoute);
 app.use('/donor', donorRoute);
 app.use('/donee', doneeRoute);
+app.use('/stock', stockRoute);
 
 
 app.get('/', function(request, response) {

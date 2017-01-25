@@ -19,7 +19,7 @@ function errTest(err) {
 
 router.route('/list')
   .get(function(req, res) {
-    Donation.find().exec(function(err, result) {
+    Donation.find().sort({"_id": -1}).exec(function(err, result) {
       res.status(200).send(result);
     });
   })
@@ -84,7 +84,7 @@ router.route('/:itemId')
       item_name: req.body.item_name,
       item_unit: req.body.item_unit,
       item_qt: req.body.item_qt,
-      expiry_date: req.body.expiry_date,
+      expire_dt: req.body.expire_dt,
       donor_name: req.body.donor_name
     }
     var newBarcodeItem = {

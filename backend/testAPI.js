@@ -1,6 +1,21 @@
 var request = require('request');
 var serverUrl = "http://localhost:8080";
 
+// |========================================|
+// |API: GET /stock/expiry_date/:days       |
+// |========================================|
+request.get({
+  url: serverUrl + '/stock/expiry_date/2'
+}, callbackFunction);
+
+
+// // |========================================|
+// // |API: GET /donation/list                    |
+// // |========================================|
+// request.get({
+//   url: serverUrl + '/donation/list'
+// }, callbackFunction);
+
 
 // // |========================================|
 // // |API: GET /donee/list                    |
@@ -137,17 +152,17 @@ var serverUrl = "http://localhost:8080";
 
 
 
-// |========================================|
-// |API: GET /barcode/:barcode           |
-// |========================================|
-request.get({
-  url: serverUrl + '/barcode/13572468'
-}, callbackFunction);
+// // |========================================|
+// // |API: GET /barcode/:barcode           |
+// // |========================================|
+// request.get({
+//   url: serverUrl + '/barcode/13572468'
+// }, callbackFunction);
 
 
 
 // |========================================|
-// |API: DELETE /donateItem/:itemId         |
+// |API: DELETE /donation/:itemId         |
 // |========================================|
 // // request.delete({
 // //   serverUrl + '/donation/10503002',
@@ -155,25 +170,25 @@ request.get({
 
 
 
-// |==============================================|
-// |API: GET /donateItem/:searchName?searchKey=xxx|
-// |==============================================|
-request.get({
-  url: serverUrl + '/donation/' + encodeURI("開心果")+'?searchKey=item_name'
-}, callbackFunction);
+// // |==============================================|
+// // |API: GET /donation/:searchName?searchKey=xxx|
+// // |==============================================|
+// request.get({
+//   url: serverUrl + '/donation/' + encodeURI("開心果")+'?searchKey=item_name'
+// }, callbackFunction);
 
 
 
 // // |========================================|
-// // |API: POST /donateItem/:itemId           |
+// // |API: POST /donation/:itemId           |
 // // |========================================|
 // request.post({
-//   url: serverUrl + '/donation/10504002',
+//   url: serverUrl + '/donation/10601003',
 //   form: {
 //     donor_name: "boss",
 //     item_name: "開心果",
 //     area: "台中",
-//     expire_dt: Date.parse("2016/03/01"),
+//     expire_dt: Date.parse("2017/01/28"),
 //     category: "營養品",
 //     weight: 150,
 //     item_unit: "盒",
