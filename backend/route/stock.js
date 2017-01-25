@@ -7,7 +7,7 @@ router.route('/expiry_date/:days')
   .get(function(req, res) {
     var days = parseInt(req.params.days);
 
-    if (days > 30) {
+    if (days > 30 || days < 1) {
       res.status(400).send({
         warning: "Bad request"
       })
