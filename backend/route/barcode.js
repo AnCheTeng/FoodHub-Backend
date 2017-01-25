@@ -8,7 +8,7 @@ var Barcode = require('../model/Barcode');
 router.route('/:barcode')
   .get(function(req, res){
     Barcode.findOne({
-      bar_code: req.params.barcode
+      barcode: req.params.barcode
     }).exec(function(err, result){
       if(result) {
         res.status(200).send(result);

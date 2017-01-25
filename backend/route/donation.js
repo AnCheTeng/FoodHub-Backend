@@ -17,9 +17,6 @@ function errTest(err) {
   if (err) console.log(err);
 }
 
-
-
-
 router.route('/:itemId')
   .get(function(req, res) {
 

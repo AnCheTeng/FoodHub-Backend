@@ -137,12 +137,12 @@ var serverUrl = "http://localhost:8080";
 
 
 
-// // |========================================|
-// // |API: GET /barcode/:barcode           |
-// // |========================================|
-// request.get({
-//   url: serverUrl + '/barcode/13572468'
-// }, callbackFunction);
+// |========================================|
+// |API: GET /barcode/:barcode           |
+// |========================================|
+request.get({
+  url: serverUrl + '/barcode/13572468'
+}, callbackFunction);
 
 
 
