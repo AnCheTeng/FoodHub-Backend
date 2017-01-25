@@ -3,7 +3,7 @@ var router = express.Router();
 
 var Stock = require('../model/Stock');
 
-router.route('/expiry_date/:days')
+router.route('/expire_dt/:days')
   .get(function(req, res) {
     var days = parseInt(req.params.days);
 

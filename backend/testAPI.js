@@ -2,10 +2,10 @@ var request = require('request');
 var serverUrl = "http://localhost:8080";
 
 // |========================================|
-// |API: GET /stock/expiry_date/:days       |
+// |API: GET /stock/expire_dt/:days       |
 // |========================================|
 request.get({
-  url: serverUrl + '/stock/expiry_date/2'
+  url: serverUrl + '/stock/expire_dt/2'
 }, callbackFunction);
 
 
