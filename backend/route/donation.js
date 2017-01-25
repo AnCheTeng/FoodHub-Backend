@@ -17,6 +17,14 @@ function errTest(err) {
   if (err) console.log(err);
 }
 
+router.route('/list')
+  .get(function(req, res) {
+    Donation.find().exec(function(err, result) {
+      res.status(200).send(result);
+    });
+  })
+
+
 router.route('/:itemId')
   .get(function(req, res) {
 
