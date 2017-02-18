@@ -2,9 +2,10 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var Stock = new Schema({
-  item_id: Schema.Types.ObjectId,
+  dn_id: String,
   item_name: String,
   item_unit: String,
+  item_unitprice: Number,
   item_qt: Number,
   expire_dt: Number,
   donor_name: String

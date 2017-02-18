@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var Donation = new Schema({
-  _id: Schema.Types.ObjectId,
+  dn_id: String,
   donor_name: String,
   item_name: String,
   area: String,

@@ -4,8 +4,7 @@ var Schema = mongoose.Schema;
 var Barcode = new Schema({
   barcode: String,
   item_name: String,
-  item_unit: String,
-  item_unitprice: Number
+  item_unit: String
 }, {
   versionKey: false
 });

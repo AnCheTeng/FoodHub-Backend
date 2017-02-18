@@ -1,12 +1,12 @@
 var request = require('request');
 var serverUrl = "http://localhost:8080";
 
-// |========================================|
-// |API: GET /stock/expire_dt/:days       |
-// |========================================|
-request.get({
-  url: serverUrl + '/stock/expire_dt/2'
-}, callbackFunction);
+// // |========================================|
+// // |API: GET /stock/expire_dt/:days       |
+// // |========================================|
+// request.get({
+//   url: serverUrl + '/stock/expire_dt/2'
+// }, callbackFunction);
 
 
 // // |========================================|
@@ -161,12 +161,12 @@ request.get({
 
 
 
-// |========================================|
-// |API: DELETE /donation/:itemId         |
-// |========================================|
-// // request.delete({
-// //   serverUrl + '/donation/10503002',
-// // }, callbackFunction);
+// // |========================================|
+// // |API: DELETE /donation/:itemId         |
+// // |========================================|
+// request.delete({
+//   url: serverUrl + '/donation/1060002',
+// }, callbackFunction);
 
 
 
@@ -177,13 +177,19 @@ request.get({
 //   url: serverUrl + '/donation/' + encodeURI("開心果")+'?searchKey=item_name'
 // }, callbackFunction);
 
+// // |==============================================|
+// // |API: GET /donation/:searchName?searchKey=xxx|
+// // |==============================================|
+// request.get({
+//   url: serverUrl + '/donation/1060003?searchKey=dn_id'
+// }, callbackFunction);
 
 
 // // |========================================|
-// // |API: POST /donation/:itemId           |
+// // |API: POST /donation/:dn_id              |
 // // |========================================|
 // request.post({
-//   url: serverUrl + '/donation/10601003',
+//   url: serverUrl + '/donation/1060002',
 //   form: {
 //     donor_name: "boss",
 //     item_name: "開心果",
@@ -198,6 +204,13 @@ request.get({
 //     donate_dt: Date.parse("2016/02/20"),
 //     barcode: "13572468"
 //   }
+// }, callbackFunction);
+
+// // |========================================|
+// // |API: GET /donation/max_dnid              |
+// // |========================================|
+// request.get({
+//   url: serverUrl + '/donation/max_dnid',
 // }, callbackFunction);
 
 

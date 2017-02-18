@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var Delivery = new Schema({
-  ic: String,
+  ic_id: String,
   item_name: String,
   item_unit: String,
   donate_dt: Number,

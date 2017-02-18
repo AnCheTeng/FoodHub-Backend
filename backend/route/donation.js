@@ -7,30 +7,43 @@ var Donation = require('../model/Donation');
 var Stock = require('../model/Stock');
 var Barcode = require('../model/Barcode');
 
-function pad(num, size) {
-  var s = num + "";
-  while (s.length < size) s = "0" + s;
-  return s;
-}
+router.route('/max_dnid')
+  .get(function(req, res) {
+    Donation.find().sort({
+      dn_id: -1
+    }).limit(1).exec(function(err, maxResult) {
+      if (err) {
+        res.status(404).send({
+          warning: "ERROR"
+        });
+      }
 
-function errTest(err) {
-  if (err) console.log(err);
-}
+      if (maxResult.length > 0 && !isNaN(maxResult[0].dn_id)) {
+        res.status(200).send(maxResult[0].dn_id);
+      } else {
+        var time = new Date();
+        var new_dnid = (time.getFullYear() - 1911) + "0001";
+        console.log(new_dnid);
+        res.status(200).send(new_dnid);
+      }
+    });
+  })
 
 router.route('/list')
   .get(function(req, res) {
-    Donation.find().sort({"_id": -1}).exec(function(err, result) {
+    Donation.find().sort({
+      "_id": -1
+    }).exec(function(err, result) {
       res.status(200).send(result);
     });
   })
 
 
-router.route('/:itemId')
+router.route('/:dn_id')
   .get(function(req, res) {
 
     var searchKey = req.query.searchKey;
-    var searchName = (req.query.searchKey == "_id" ? pad(req.params.itemId, 24)
-                     : decodeURI(req.params.itemId));
+    var searchName = decodeURI(req.params.dn_id);
     var itemQuery = {};
     itemQuery[searchKey] = searchName;
 
@@ -41,114 +54,129 @@ router.route('/:itemId')
         res.status(404).send({
           error: "Item not found",
           searchKey: req.query.searchKey,
-          searchName: req.params.itemId,
+          searchName: req.params.dn_id,
           theQuery: itemQuery
         });
       }
     });
   })
   .post(function(req, res) {
-    req.params.itemId = pad(req.params.itemId, 24);
-    // console.log(req.body);
-    // req.body.expiryDate = Date.parse(req.body.expiryDate);
-    // req.body.donateDate = Date.parse(req.body.donateDate);
+
     req.body.weight = parseInt(req.body.weight);
     req.body.quantity = parseInt(req.body.item_qt);
     req.body.price = parseFloat(req.body.item_unitprice);
+    req.params.dn_id = req.params.dn_id + "";
 
     var safetyCheck = isNaN(req.body.expire_dt) || isNaN(req.body.donate_dt) ||
-      isNaN(req.body.weight) || isNaN(req.body.item_qt);
+      isNaN(req.body.weight) || isNaN(req.body.item_qt) || wrong_dnid(req.params.dn_id);
 
     if (safetyCheck == true) {
       res.status(404).send({
-        error: "Something wrong with Date or quantity or weight"
+        error: "Something wrong with Date or quantity or weight or dn_id"
       });
       return;
     }
 
-    var newDonateItem = {
-      _id: new mongoose.Types.ObjectId(req.params.itemId),
-      donor_name: req.body.donor_name,
-      item_name: req.body.item_name,
-      area: req.body.area,
-      expire_dt: req.body.expire_dt,
-      category: req.body.category,
-      weight: req.body.weight,
-      item_unit: req.body.item_unit,
-      item_qt: req.body.item_qt,
-      memo: req.body.item_qt,
-      donate_dt: req.body.donate_dt
-    };
-    var newStockItem = {
-      item_id: new mongoose.Types.ObjectId(req.params.itemId),
-      item_name: req.body.item_name,
-      item_unit: req.body.item_unit,
-      item_qt: req.body.item_qt,
-      expire_dt: req.body.expire_dt,
-      donor_name: req.body.donor_name
-    }
-    var newBarcodeItem = {
-      barcode: req.body.barcode,
-      item_name: req.body.item_name,
-      item_unit: req.body.item_unit,
-      item_unitprice: req.body.item_unitprice
-    }
-
-    var donationPromise = Donation.findOne({
-      _id: req.params.itemId
-    }).exec(function(err, result) {
-      if (result) {
-        result.remove();
-      }
-      var newDonation = new Donation(newDonateItem);
-      newDonation.save(errTest);
-    });
-    var stockPromise = Stock.findOne({
-      item_id: req.params.itemId
-    }).exec(function(err, result) {
-      if (result) {
-        result.remove();
-      }
-      var newStock = new Stock(newStockItem);
-      newStock.save(errTest);
-    });
-    var barcodePromise = Barcode.findOne({
-      item_id: req.params.itemId
-    }).exec(function(err, result) {
-      if(!result){
-        var newBarcode = new Barcode(newBarcodeItem);
-        newBarcode.save(errTest);
-      }
-    });
-
-    Promise.all([donationPromise, stockPromise, barcodePromise]).then(function(values){
-      res.send({
-        success: "New item has been created"
-      });
-    });
-
-  })
-  .delete(function(req, res) {
-    req.params.itemId = pad(req.params.itemId, 24);
-
-    Donation.findOne({
-      _id: req.params.itemId
-    }).exec(function(err, result) {
-      if (result) {
-        result.remove();
-        Stock.findOne({
-          item_id: req.params.itemId
-        }).exec(function(err, result) {
-          if(result){
-            result.remove();
-          }
-          res.status(200).send({ success : "Item has been deleted" });
+    Donation.find().sort({
+      dn_id: -1
+    }).limit(1).exec(function(err, maxResult) {
+      if (maxResult.length > 0 && parseInt(req.params.dn_id) < parseInt(maxResult[0].dn_id)) {
+        res.status(400).send({
+          error: "dn_id is wrong!"
         })
       } else {
-        res.status(404).send({ error : "Item not found" });
+        var newDonateItem = {
+          dn_id: req.params.dn_id,
+          donor_name: req.body.donor_name,
+          item_name: req.body.item_name,
+          area: req.body.area,
+          expire_dt: req.body.expire_dt,
+          category: req.body.category,
+          weight: req.body.weight,
+          item_unit: req.body.item_unit,
+          item_qt: req.body.item_qt,
+          memo: req.body.item_qt,
+          donate_dt: req.body.donate_dt
+        };
+        var newStockItem = {
+          dn_id: req.params.dn_id,
+          item_name: req.body.item_name,
+          item_unit: req.body.item_unit,
+          item_qt: req.body.item_qt,
+          item_unitprice: req.body.item_unitprice,
+          expire_dt: req.body.expire_dt,
+          donor_name: req.body.donor_name
+        }
+        var newBarcodeItem = {
+          barcode: req.body.barcode,
+          item_name: req.body.item_name,
+          item_unit: req.body.item_unit
+        }
+
+        var newDonation = new Donation(newDonateItem);
+        var newStock = new Stock(newStockItem);
+        newDonation.save(errTest);
+        newStock.save(errTest);
+
+        Barcode.findOne({barcode: req.body.barcode}).exec(function(err, result){
+          if(result) {
+            result.remove();
+            var newBarcode = new Barcode(newBarcodeItem);
+            newBarcode.save(errTest);
+          }
+        });
+
+        res.status(200).send({
+          success: "New item has been created"
+        });
       }
     });
   })
+  .delete(function(req, res) {
+    Donation.find({
+      dn_id: req.params.dn_id
+    }).exec(function(err, donation_result) {
+      if (donation_result.length > 0) {
+        donation_result.forEach(function(el) {
+          el.remove();
+        });
+
+        Stock.find({
+          dn_id: req.params.dn_id
+        }).exec(function(err, stock_result) {
+          if (stock_result.length > 0) {
+            stock_result.forEach(function(el) {
+              el.remove();
+            });
+          }
+          res.status(200).send({
+            success: "Item has been deleted"
+          });
+        })
+      } else {
+        res.status(404).send({
+          error: "Item not found"
+        });
+      }
+    });
+  })
+
+
+function wrong_dnid(new_dn_id) {
+  new_dn_id = new_dn_id + "";
+  var time = new Date();
+  var taiwan_year = time.getFullYear() - 1911;
+
+  if (new_dn_id.indexOf(taiwan_year) != 0 || new_dn_id.length != 7) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function errTest(err) {
+  if (err) console.log(err);
+}
 
 
 module.exports = router;
