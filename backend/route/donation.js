@@ -22,7 +22,7 @@ router.route('/max_dnid')
         res.status(200).send(maxResult[0].dn_id);
       } else {
         var time = new Date();
-        var new_dnid = (time.getFullYear() - 1911) + "0001";
+        var new_dnid = (time.getFullYear() - 1911) + "0000";
         console.log(new_dnid);
         res.status(200).send(new_dnid);
       }
