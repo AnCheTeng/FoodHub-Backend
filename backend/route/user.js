@@ -11,6 +11,7 @@ router.route('/login/:account')
     }).exec(function(err, result) {
       if (result) {
         res.status(200).send({
+          auth: result.auth,
           success: "Login successfully!"
         })
       } else {

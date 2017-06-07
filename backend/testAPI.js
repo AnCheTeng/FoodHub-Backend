@@ -1,12 +1,12 @@
 var request = require('request');
 var serverUrl = "http://localhost:8080";
 
-// |========================================|
-// |API: GET /stock/barcode/:barcode       |
-// |========================================|
-request.get({
-  url: serverUrl + '/stock/barcode/24681357'
-}, callbackFunction);
+// // |========================================|
+// // |API: GET /stock/barcode/:barcode       |
+// // |========================================|
+// request.get({
+//   url: serverUrl + '/stock/barcode/24681357'
+// }, callbackFunction);
 
 // // |========================================|
 // // |API: GET /stock/expire_dt/:days       |
@@ -104,15 +104,15 @@ request.get({
 
 
 
-// // |========================================|
-// // |API: POST /user/login                   |
-// // |========================================|
-// request.post({
-//   url: serverUrl + '/user/login/zizi',
-//   form: {
-//     pw: "foodhublalala"
-//   }
-// }, callbackFunction);
+// |========================================|
+// |API: POST /user/login                   |
+// |========================================|
+request.post({
+  url: serverUrl + '/user/login/zizi',
+  form: {
+    pw: "foodhub"
+  }
+}, callbackFunction);
 
 
 
