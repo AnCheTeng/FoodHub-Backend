@@ -113,18 +113,33 @@ router.route('/:dn_id')
           item_unit: req.body.item_unit
         }
 
-        var newDonation = new Donation(newDonateItem);
-        var newStock = new Stock(newStockItem);
-        newDonation.save(errTest);
-        newStock.save(errTest);
-
-        Barcode.findOne({barcode: req.body.barcode}).exec(function(err, result){
-          if(result) {
-            result.remove();
+        Barcode.findOne({item_name: req.body.item_name}).exec(function(err, result){
+          if(req.body.barcode){
+            if(result){
+              result.remove();
+            }
+            var newBarcode = new Barcode(newBarcodeItem);
+            newBarcode.save(errTest);
           }
-          var newBarcode = new Barcode(newBarcodeItem);
-          newBarcode.save(errTest);
-        });
+
+          var newDonation = new Donation(newDonateItem);
+          var newStock = new Stock(newStockItem);
+          newDonation.save(errTest);
+          newStock.save(errTest);
+        })
+
+        // var newDonation = new Donation(newDonateItem);
+        // var newStock = new Stock(newStockItem);
+        // newDonation.save(errTest);
+        // newStock.save(errTest);
+        //
+        // Barcode.findOne({barcode: req.body.barcode}).exec(function(err, result){
+        //   if(result) {
+        //     result.remove();
+        //   }
+        //   var newBarcode = new Barcode(newBarcodeItem);
+        //   newBarcode.save(errTest);
+        // });
 
         res.status(200).send({
           success: "New item has been created"
