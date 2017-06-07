@@ -185,26 +185,26 @@ var serverUrl = "http://localhost:8080";
 // }, callbackFunction);
 
 
-// // |========================================|
-// // |API: POST /donation/:dn_id              |
-// // |========================================|
-// request.post({
-//   url: serverUrl + '/donation/1060002',
-//   form: {
-//     donor_name: "boss",
-//     item_name: "開心果",
-//     area: "台中",
-//     expire_dt: Date.parse("2017/01/28"),
-//     category: "營養品",
-//     weight: 150,
-//     item_unit: "盒",
-//     item_qt: 5,
-//     item_unitprice: 200,
-//     memo: "描述物品",
-//     donate_dt: Date.parse("2016/02/20"),
-//     barcode: "13572468"
-//   }
-// }, callbackFunction);
+// |========================================|
+// |API: POST /donation/:dn_id              |
+// |========================================|
+request.post({
+  url: serverUrl + '/donation/1060002',
+  form: {
+    donor_name: "boss",
+    item_name: "開心果",
+    area: "台中",
+    expire_dt: Date.parse("2017/01/28"),
+    category: "營養品",
+    weight: 150,
+    item_unit: "盒",
+    item_qt: 5,
+    item_unitprice: 200,
+    memo: "描述物品",
+    donate_dt: Date.parse("2016/02/20"),
+    barcode: "13572468"
+  }
+}, callbackFunction);
 
 // // |========================================|
 // // |API: GET /donation/max_dnid              |

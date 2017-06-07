@@ -121,9 +121,9 @@ router.route('/:dn_id')
         Barcode.findOne({barcode: req.body.barcode}).exec(function(err, result){
           if(result) {
             result.remove();
-            var newBarcode = new Barcode(newBarcodeItem);
-            newBarcode.save(errTest);
           }
+          var newBarcode = new Barcode(newBarcodeItem);
+          newBarcode.save(errTest);
         });
 
         res.status(200).send({
