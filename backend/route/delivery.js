@@ -29,6 +29,26 @@ router.route('/max_dnid')
   })
 
 router.route('/:dn_id')
+  .get(function(req, res) {
+
+    var searchKey = req.query.searchKey;
+    var searchName = decodeURI(req.params.dn_id);
+    var itemQuery = {};
+    itemQuery[searchKey] = searchName;
+
+    Delivery.find(itemQuery).exec(function(err, result) {
+      if (result) {
+        res.status(200).send(result);
+      } else {
+        res.status(404).send({
+          error: "Item not found",
+          searchKey: req.query.searchKey,
+          searchName: req.params.dn_id,
+          theQuery: itemQuery
+        });
+      }
+    });
+  })
   .post(function(req, res) {
     Stock.findOne({
       _id: req.body.stock_id

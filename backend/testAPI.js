@@ -197,6 +197,14 @@ var serverUrl = "http://localhost:8080";
 // }, callbackFunction);
 
 // |==============================================|
+// |API: GET /delivery/:searchName?searchKey=xxx|
+// |==============================================|
+request.get({
+  url: serverUrl + '/stock/' + encodeURI("花生餅乾")+'?searchKey=item_name'
+}, callbackFunction);
+
+
+// |==============================================|
 // |API: GET /stock/:searchName?searchKey=xxx|
 // |==============================================|
 request.get({
