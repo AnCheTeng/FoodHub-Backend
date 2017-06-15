@@ -196,10 +196,11 @@ var serverUrl = "http://localhost:8080";
 // |API: POST /donation/:dn_id              |
 // |========================================|
 request.post({
-  url: serverUrl + '/donation/1060008',
+  url: serverUrl + '/donation/1060009',
   form: {
     donor_name: "boss",
     item_name: "花生餅乾",
+    contractor: "zizi",
     area: "台中",
     expire_dt: Date.parse("2017/01/28"),
     category: "營養品",

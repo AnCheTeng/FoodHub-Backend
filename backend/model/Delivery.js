@@ -3,6 +3,8 @@ var Schema = mongoose.Schema;
 
 var Delivery = new Schema({
   ic_id: String,
+  donee_name: String,
+  contractor: String,
   item_name: String,
   item_unit: String,
   donate_dt: Number,

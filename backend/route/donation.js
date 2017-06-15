@@ -88,6 +88,7 @@ router.route('/:dn_id')
         var newDonateItem = {
           dn_id: req.params.dn_id,
           donor_name: req.body.donor_name,
+          contractor: req.body.contractor,
           item_name: req.body.item_name,
           area: req.body.area,
           expire_dt: req.body.expire_dt,
