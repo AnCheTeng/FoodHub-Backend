@@ -197,7 +197,7 @@ var serverUrl = "http://localhost:8080";
 // }, callbackFunction);
 
 // |==============================================|
-// |API: GET /donation/:searchName?searchKey=xxx|
+// |API: GET /stock/:searchName?searchKey=xxx|
 // |==============================================|
 request.get({
   url: serverUrl + '/stock/' + encodeURI("開心果")+'?searchKey=item_name'
