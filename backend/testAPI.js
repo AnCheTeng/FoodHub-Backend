@@ -175,7 +175,12 @@ var serverUrl = "http://localhost:8080";
 //   url: serverUrl + '/donation/1060002',
 // }, callbackFunction);
 
-
+// // |==============================================|
+// // |API: GET /donation/:searchName?searchKey=xxx|
+// // |==============================================|
+// request.get({
+//   url: serverUrl + '/donation/593762d81cd7de4430c57cd4?searchKey=_id'
+// }, callbackFunction);
 
 // // |==============================================|
 // // |API: GET /donation/:searchName?searchKey=xxx|
@@ -191,14 +196,35 @@ var serverUrl = "http://localhost:8080";
 //   url: serverUrl + '/donation/1060003?searchKey=dn_id'
 // }, callbackFunction);
 
+// // |========================================|
+// // |API: POST /donation/:dn_id              |
+// // |========================================|
+// request.post({
+//   url: serverUrl + '/donation/1060009',
+//   form: {
+//     donor_name: "boss",
+//     item_name: "花生餅乾",
+//     contractor: "zizi",
+//     area: "台中",
+//     expire_dt: Date.parse("2017/01/28"),
+//     category: "營養品",
+//     weight: 150,
+//     item_unit: "盒",
+//     item_qt: 5,
+//     item_unitprice: 200,
+//     memo: "描述物品",
+//     donate_dt: Date.parse("2016/02/20")
+//   }
+// }, callbackFunction);
 
 // |========================================|
 // |API: POST /donation/:dn_id              |
 // |========================================|
 request.post({
-  url: serverUrl + '/donation/1060009',
+  url: serverUrl + '/donation/1060005',
   form: {
-    donor_name: "boss",
+    _id: "594286fb55435f081c8096df",
+    donor_name: "ssd",
     item_name: "花生餅乾",
     contractor: "zizi",
     area: "台中",

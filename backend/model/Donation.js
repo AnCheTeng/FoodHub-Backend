@@ -13,7 +13,8 @@ var Donation = new Schema({
   item_unit: String,
   item_qt: Number,
   memo: String,
-  donate_dt: Number
+  donate_dt: Number,
+  stock_id: Schema.Types.ObjectId,
 }, {
   versionKey: false
 });

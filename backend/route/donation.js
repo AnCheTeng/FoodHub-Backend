@@ -114,41 +114,52 @@ router.route('/:dn_id')
           item_unit: req.body.item_unit
         }
 
-        Barcode.findOne({item_name: req.body.item_name}).exec(function(err, result){
-          if(req.body.barcode){
-            if(result){
+        Barcode.findOne({
+          item_name: req.body.item_name
+        }).exec(function(err, result) {
+          if (req.body.barcode) {
+            if (result) {
               result.remove();
             }
             var newBarcode = new Barcode(newBarcodeItem);
             newBarcode.save(errTest);
           }
 
-          var newDonation = new Donation(newDonateItem);
-          var newStock = new Stock(newStockItem);
-          newDonation.save(errTest);
-          newStock.save(errTest);
+          Donation.findOneAndUpdate({
+            _id: req.body._id
+          }, newDonateItem).exec(function(err, donate_result) {
+            if (donate_result) {
+              // Update:
+              Stock.findOneAndUpdate({
+                _id: donate_result.stock_id
+              }, newStockItem).exec(function(err, stock_result) {
+                res.status(200).send({
+                  success: "The item has been updated"
+                });
+              })
+            } else {
+              // Create:
+              var newStock = new Stock(newStockItem);
+              newStock.save(function(err, saved) {
+                newDonateItem["stock_id"] = saved._id;
+                var newDonation = new Donation(newDonateItem);
+                newDonation.save(errTest);
+                res.status(200).send({
+                  success: "New item has been created"
+                });
+              })
+            }
+          })
         })
-
-        // var newDonation = new Donation(newDonateItem);
-        // var newStock = new Stock(newStockItem);
-        // newDonation.save(errTest);
-        // newStock.save(errTest);
-        //
-        // Barcode.findOne({barcode: req.body.barcode}).exec(function(err, result){
-        //   if(result) {
-        //     result.remove();
-        //   }
-        //   var newBarcode = new Barcode(newBarcodeItem);
-        //   newBarcode.save(errTest);
-        // });
-
-        res.status(200).send({
-          success: "New item has been created"
-        });
       }
     });
   })
   .delete(function(req, res) {
+    var searchKey = req.query.searchKey;
+    var searchName = decodeURI(req.params.dn_id);
+    var itemQuery = {};
+    itemQuery[searchKey] = searchName;
+
     Donation.find({
       dn_id: req.params.dn_id
     }).exec(function(err, donation_result) {
