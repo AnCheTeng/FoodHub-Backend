@@ -33,8 +33,12 @@ router.route('/:dn_id')
     Stock.findOne({
       _id: req.body.stock_id
     }).exec(function(err, found_stock) {
-      if (req.body.item_qt > found_stock.item_qt) {
+      if (!found_stock) {
         res.status(404).send({
+          error: "Item is not found"
+        });
+      } else if (req.body.item_qt > found_stock.item_qt) {
+        res.status(400).send({
           error: "Item is not enough"
         });
       } else {
