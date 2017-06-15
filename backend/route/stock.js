@@ -4,6 +4,28 @@ var router = express.Router();
 var Stock = require('../model/Stock');
 var Barcode = require('../model/Barcode');
 
+router.route('/:query_attr')
+  .get(function(req, res) {
+
+    var searchKey = req.query.searchKey;
+    var searchName = decodeURI(req.params.query_attr);
+    var itemQuery = {};
+    itemQuery[searchKey] = searchName;
+
+    Stock.find(itemQuery).exec(function(err, result) {
+      if (result) {
+        res.status(200).send(result);
+      } else {
+        res.status(404).send({
+          error: "Stock not found",
+          searchKey: req.query.searchKey,
+          searchName: req.params.dn_id,
+          theQuery: itemQuery
+        });
+      }
+    });
+  })
+
 router.route('/expire_dt/:days')
   .get(function(req, res) {
     var days = parseInt(req.params.days);

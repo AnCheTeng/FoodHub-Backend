@@ -196,6 +196,13 @@ var serverUrl = "http://localhost:8080";
 //   url: serverUrl + '/donation/1060003?searchKey=dn_id'
 // }, callbackFunction);
 
+// |==============================================|
+// |API: GET /donation/:searchName?searchKey=xxx|
+// |==============================================|
+request.get({
+  url: serverUrl + '/donation/' + encodeURI("開心果")+'?searchKey=item_name'
+}, callbackFunction);
+
 // // |========================================|
 // // |API: POST /donation/:dn_id              |
 // // |========================================|
