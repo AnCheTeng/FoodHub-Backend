@@ -2,15 +2,15 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var Delivery = new Schema({
-  ic_id: String,
+  dn_id: String,
+  ic: String,
   donee_name: String,
   contractor: String,
+  delivery_dt: Number,
   item_name: String,
   item_unit: String,
-  donate_dt: Number,
-  print_dt: Number,
-  expire_dt Number,
-  qt: Number,
+  item_qt: Number,
+  expire_dt: Number,
   memo: String
 }, {
   versionKey: false

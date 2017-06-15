@@ -13,6 +13,7 @@ var Donee = require('./model/Donee');
 // route
 var userRoute = require('./route/user');
 var donationRoute = require('./route/donation');
+var deliveryRoute = require('./route/delivery');
 var barcodeRoute = require('./route/barcode');
 var donorRoute = require('./route/donor');
 var doneeRoute = require('./route/donee');
@@ -49,6 +50,7 @@ app.use(function(req, res, next) {
 
 app.use('/user', userRoute);
 app.use('/donation', donationRoute);
+app.use('/delivery', deliveryRoute);
 app.use('/barcode', barcodeRoute);
 app.use('/donor', donorRoute);
 app.use('/donee', doneeRoute);

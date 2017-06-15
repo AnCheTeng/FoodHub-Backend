@@ -218,26 +218,42 @@ var serverUrl = "http://localhost:8080";
 // }, callbackFunction);
 
 // |========================================|
-// |API: POST /donation/:dn_id              |
+// |API: POST /delivery/:dn_id              |
 // |========================================|
 request.post({
-  url: serverUrl + '/donation/1060005',
+  url: serverUrl + '/delivery/1060001',
   form: {
-    _id: "594286fb55435f081c8096df",
-    donor_name: "ssd",
-    item_name: "花生餅乾",
+    ic: "12344321",
+    stock_id: "59428dcbc37d0c88219f92ae",
+    donee_name: "ssd",
     contractor: "zizi",
-    area: "台中",
-    expire_dt: Date.parse("2017/01/28"),
-    category: "營養品",
-    weight: 150,
-    item_unit: "盒",
-    item_qt: 5,
-    item_unitprice: 200,
+    delivery_dt: Date.parse("2017/01/28"),
+    item_qt: 1,
     memo: "描述物品",
-    donate_dt: Date.parse("2016/02/20")
   }
 }, callbackFunction);
+
+// // |========================================|
+// // |API: POST /donation/:dn_id              |
+// // |========================================|
+// request.post({
+//   url: serverUrl + '/donation/1060005',
+//   form: {
+//     _id: "594286fb55435f081c8096df",
+//     donor_name: "ssd",
+//     item_name: "花生餅乾",
+//     contractor: "zizi",
+//     area: "台中",
+//     expire_dt: Date.parse("2017/01/28"),
+//     category: "營養品",
+//     weight: 150,
+//     item_unit: "盒",
+//     item_qt: 5,
+//     item_unitprice: 200,
+//     memo: "描述物品",
+//     donate_dt: Date.parse("2016/02/20")
+//   }
+// }, callbackFunction);
 
 // // |========================================|
 // // |API: GET /donation/max_dnid              |
