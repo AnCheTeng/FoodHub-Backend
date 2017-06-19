@@ -105,6 +105,7 @@ router.route('/:dn_id')
           item_unit: req.body.item_unit,
           item_qt: req.body.item_qt,
           item_unitprice: req.body.item_unitprice,
+          category: req.body.category,
           expire_dt: req.body.expire_dt,
           donor_name: req.body.donor_name
         }

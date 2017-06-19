@@ -7,6 +7,7 @@ var Stock = new Schema({
   item_unit: String,
   item_unitprice: Number,
   item_qt: Number,
+  category: String,
   expire_dt: Number,
   donor_name: String
 }, {
