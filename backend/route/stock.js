@@ -4,6 +4,15 @@ var router = express.Router();
 var Stock = require('../model/Stock');
 var Barcode = require('../model/Barcode');
 
+router.route('/list')
+  .get(function(req, res) {
+    Stock.find().sort({
+      "_id": -1
+    }).exec(function(err, result) {
+      res.status(200).send(result);
+    });
+  })
+
 router.route('/:query_attr')
   .get(function(req, res) {
 
