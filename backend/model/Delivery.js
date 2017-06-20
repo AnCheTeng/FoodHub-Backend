@@ -2,8 +2,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var Delivery = new Schema({
-  dn_id: String,
-  ic: String,
+  dv_id: String,
   donee_name: String,
   contractor: String,
   delivery_dt: Number,

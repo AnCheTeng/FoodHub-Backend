@@ -6,10 +6,10 @@ var router = express.Router();
 var Delivery = require('../model/Delivery');
 var Stock = require('../model/Stock');
 
-router.route('/max_dnid')
+router.route('/max_dvid')
   .get(function(req, res) {
     Delivery.find().sort({
-      dn_id: -1
+      dv_id: -1
     }).limit(1).exec(function(err, maxResult) {
       if (err) {
         res.status(404).send({
@@ -17,22 +17,22 @@ router.route('/max_dnid')
         });
       }
 
-      if (maxResult.length > 0 && !isNaN(maxResult[0].dn_id)) {
-        res.status(200).send(maxResult[0].dn_id);
+      if (maxResult.length > 0 && !isNaN(maxResult[0].dv_id)) {
+        res.status(200).send(maxResult[0].dv_id);
       } else {
         var time = new Date();
-        var new_dnid = (time.getFullYear() - 1911) + "0000";
-        console.log(new_dnid);
-        res.status(200).send(new_dnid);
+        var new_dvid = (time.getFullYear() - 1911) + "0000";
+        console.log(new_dvid);
+        res.status(200).send(new_dvid);
       }
     });
   })
 
-router.route('/:dn_id')
+router.route('/:dv_id')
   .get(function(req, res) {
 
     var searchKey = req.query.searchKey;
-    var searchName = decodeURI(req.params.dn_id);
+    var searchName = decodeURI(req.params.dv_id);
     var itemQuery = {};
     itemQuery[searchKey] = searchName;
 
@@ -43,7 +43,7 @@ router.route('/:dn_id')
         res.status(404).send({
           error: "Item not found",
           searchKey: req.query.searchKey,
-          searchName: req.params.dn_id,
+          searchName: req.params.dv_id,
           theQuery: itemQuery
         });
       }
@@ -63,8 +63,7 @@ router.route('/:dn_id')
         });
       } else {
         var newDeliveryItem = {
-          dn_id: req.params.dn_id,
-          ic: req.body.ic,
+          dv_id: req.params.dv_id,
           donee_name: req.body.donee_name,
           contractor: req.body.contractor,
           delivery_dt: req.body.delivery_dt,
@@ -93,12 +92,12 @@ router.route('/:dn_id')
   // })
 
 
-function wrong_dnid(new_dn_id) {
-  new_dn_id = new_dn_id + "";
+function wrong_dvid(new_dv_id) {
+  new_dv_id = new_dv_id + "";
   var time = new Date();
   var taiwan_year = time.getFullYear() - 1911;
 
-  if (new_dn_id.indexOf(taiwan_year) != 0 || new_dn_id.length != 7) {
+  if (new_dv_id.indexOf(taiwan_year) != 0 || new_dv_id.length != 7) {
     return true;
   } else {
     return false;
