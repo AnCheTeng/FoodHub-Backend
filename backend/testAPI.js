@@ -15,12 +15,20 @@ var serverUrl = "http://localhost:8080";
 //   url: serverUrl + '/stock/expire_dt/2'
 // }, callbackFunction);
 
+
 // |========================================|
-// |API: GET /stock/list                    |
+// |API: GET /delivery/list                    |
 // |========================================|
 request.get({
-  url: serverUrl + '/stock/list'
+  url: serverUrl + '/delivery/list'
 }, callbackFunction);
+
+// // |========================================|
+// // |API: GET /stock/list                    |
+// // |========================================|
+// request.get({
+//   url: serverUrl + '/stock/list'
+// }, callbackFunction);
 
 // // |========================================|
 // // |API: GET /donation/list                    |

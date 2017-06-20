@@ -28,6 +28,15 @@ router.route('/max_dvid')
     });
   })
 
+router.route('/list')
+  .get(function(req, res) {
+    Delivery.find().sort({
+      "_id": -1
+    }).exec(function(err, result) {
+      res.status(200).send(result);
+    });
+  })
+
 router.route('/:dv_id')
   .get(function(req, res) {
 
