@@ -12,6 +12,7 @@ var Donation = new Schema({
   weight: Number,
   item_unit: String,
   item_qt: Number,
+  item_unitprice: Number,
   memo: String,
   donate_dt: Number,
   stock_id: Schema.Types.ObjectId,

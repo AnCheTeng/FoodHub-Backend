@@ -96,6 +96,7 @@ router.route('/:dn_id')
           weight: req.body.weight,
           item_unit: req.body.item_unit,
           item_qt: req.body.item_qt,
+          item_unitprice: req.body.item_unitprice,
           memo: req.body.item_qt,
           donate_dt: req.body.donate_dt
         };
