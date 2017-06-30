@@ -5,6 +5,8 @@ var router = express.Router();
 
 var Delivery = require('../model/Delivery');
 var Stock = require('../model/Stock');
+var Donee = require('../model/Donee');
+var User = require('../model/User');
 
 router.route('/max_dvid')
   .get(function(req, res) {
@@ -59,42 +61,92 @@ router.route('/:dv_id')
     });
   })
   .post(function(req, res) {
-    Stock.findOne({
+
+    var promiseList = [];
+
+    promiseList.push(Stock.findOne({
       _id: req.body.stock_id
-    }).exec(function(err, found_stock) {
-      if (!found_stock) {
+    }).exec());
+
+    promiseList.push(Donee.findOne({
+      donee_name: req.body.donee_name
+    }).exec());
+
+    promiseList.push(User.findOne({
+      account: req.body.contractor
+    }).exec());
+
+    Promise.all(promiseList).then(function(promiseResults) {
+
+      var foundStock = promiseResults[0]
+      if (!foundStock) {
         res.status(404).send({
-          error: "Item is not found"
+          error: "Item is not found!"
         });
-      } else if (req.body.item_qt > found_stock.item_qt) {
+        return;
+      } else if (req.body.item_qt > foundStock.item_qt) {
         res.status(400).send({
-          error: "Item is not enough"
+          error: "Item is not enough!"
         });
-      } else {
-        var newDeliveryItem = {
-          dv_id: req.params.dv_id,
-          donee_name: req.body.donee_name,
-          contractor: req.body.contractor,
-          delivery_dt: req.body.delivery_dt,
-          item_name: found_stock.item_name,
-          item_unit: found_stock.item_unit,
-          item_qt: req.body.item_qt,
-          expire_dt: found_stock.expire_dt,
-          memo: req.body.memo
-        }
-        var newDelivery = new Delivery(newDeliveryItem);
-        newDelivery.save();
-        res.status(200).send({
-          success: "The item has been delivered"
-        });
-        found_stock.item_qt = found_stock.item_qt - req.body.item_qt;
-        if (found_stock.item_qt == 0) {
-          found_stock.remove();
-        } else {
-          found_stock.save();
-        }
+        return;
       }
+
+      var foundDonee = promiseResults[1]
+      if(!foundDonee) {
+        res.status(404).send({
+          error: "Donee is not found!"
+        });
+        return;
+      }
+
+      var foundUser = promiseResults[2]
+      if(!foundUser) {
+        res.status(404).send({
+          error: "Contractor is not found!"
+        })
+        return;
+      }
+
+      var newDeliveryItem = {
+        dv_id: req.params.dv_id,
+        donee_name: req.body.donee_name,
+        contractor: req.body.contractor,
+        delivery_dt: req.body.delivery_dt,
+        item_name: foundStock.item_name,
+        item_unit: foundStock.item_unit,
+        item_qt: req.body.item_qt,
+        expire_dt: foundStock.expire_dt,
+        memo: req.body.memo
+      }
+      var newDelivery = new Delivery(newDeliveryItem);
+      newDelivery.save();
+      res.status(200).send({
+        success: "The item has been delivered"
+      });
+      foundStock.item_qt = foundStock.item_qt - req.body.item_qt;
+      if (foundStock.item_qt == 0) {
+        foundStock.remove();
+      } else {
+        foundStock.save();
+      }
+
     })
+    //
+    // Stock.findOne({
+    //   _id: req.body.stock_id
+    // }).exec(function(err, foundStock) {
+    //   if (!foundStock) {
+    //     res.status(404).send({
+    //       error: "Item is not found"
+    //     });
+    //   } else if (req.body.item_qt > foundStock.item_qt) {
+    //     res.status(400).send({
+    //       error: "Item is not enough"
+    //     });
+    //   } else {
+    //
+    //   }
+    // })
   })
   // .delete(function(req, res) {
   //   res.status(200).send("HI");

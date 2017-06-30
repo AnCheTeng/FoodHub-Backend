@@ -6,6 +6,8 @@ var router = express.Router();
 var Donation = require('../model/Donation');
 var Stock = require('../model/Stock');
 var Barcode = require('../model/Barcode');
+var Donor = require('../model/Donor');
+var User = require('../model/User');
 
 router.route('/max_dnid')
   .get(function(req, res) {
@@ -77,84 +79,119 @@ router.route('/:dn_id')
       return;
     }
 
-    Donation.find().sort({
+    var newDonateItem = {
+      donor_name: req.body.donor_name,
+      contractor: req.body.contractor,
+      item_name: req.body.item_name,
+      area: req.body.area,
+      expire_dt: req.body.expire_dt,
+      category: req.body.category,
+      weight: req.body.weight,
+      item_unit: req.body.item_unit,
+      item_qt: req.body.item_qt,
+      item_unitprice: req.body.item_unitprice,
+      memo: req.body.item_qt,
+      donate_dt: req.body.donate_dt
+    };
+    var newStockItem = {
+      dn_id: req.params.dn_id,
+      item_name: req.body.item_name,
+      item_unit: req.body.item_unit,
+      item_qt: req.body.item_qt,
+      item_unitprice: req.body.item_unitprice,
+      category: req.body.category,
+      expire_dt: req.body.expire_dt,
+      donor_name: req.body.donor_name
+    }
+    var newBarcodeItem = {
+      barcode: req.body.barcode,
+      item_name: req.body.item_name,
+      item_unit: req.body.item_unit
+    }
+
+    var promiseList = [];
+
+    promiseList.push(Donation.find().sort({
       dn_id: -1
-    }).limit(1).exec(function(err, maxResult) {
-      if (maxResult.length > 0 && parseInt(req.params.dn_id) < parseInt(maxResult[0].dn_id)) {
+    }).limit(1).exec());
+
+    promiseList.push(Donor.findOne({
+      donor_name: req.body.donor_name
+    }).exec());
+
+    promiseList.push(User.findOne({
+      account: req.body.contractor
+    }).exec());
+
+    promiseList.push(Barcode.findOne({
+      item_name: req.body.item_name
+    }).exec());
+
+
+    Promise.all(promiseList).then(function(promiseResults) {
+      var maxResult = promiseResults[0];
+      if (maxResult.length > 0 &&
+          parseInt(req.params.dn_id) < parseInt(maxResult[0].dn_id) &&
+          !req.body._id) {
         res.status(400).send({
           error: "dn_id is wrong!"
         })
-      } else {
-        var newDonateItem = {
-          dn_id: req.params.dn_id,
-          donor_name: req.body.donor_name,
-          contractor: req.body.contractor,
-          item_name: req.body.item_name,
-          area: req.body.area,
-          expire_dt: req.body.expire_dt,
-          category: req.body.category,
-          weight: req.body.weight,
-          item_unit: req.body.item_unit,
-          item_qt: req.body.item_qt,
-          item_unitprice: req.body.item_unitprice,
-          memo: req.body.item_qt,
-          donate_dt: req.body.donate_dt
-        };
-        var newStockItem = {
-          dn_id: req.params.dn_id,
-          item_name: req.body.item_name,
-          item_unit: req.body.item_unit,
-          item_qt: req.body.item_qt,
-          item_unitprice: req.body.item_unitprice,
-          category: req.body.category,
-          expire_dt: req.body.expire_dt,
-          donor_name: req.body.donor_name
-        }
-        var newBarcodeItem = {
-          barcode: req.body.barcode,
-          item_name: req.body.item_name,
-          item_unit: req.body.item_unit
-        }
-
-        Barcode.findOne({
-          item_name: req.body.item_name
-        }).exec(function(err, result) {
-          if (req.body.barcode) {
-            if (result) {
-              result.remove();
-            }
-            var newBarcode = new Barcode(newBarcodeItem);
-            newBarcode.save(errTest);
-          }
-
-          Donation.findOneAndUpdate({
-            _id: req.body._id
-          }, newDonateItem).exec(function(err, donate_result) {
-            if (donate_result) {
-              // Update:
-              Stock.findOneAndUpdate({
-                _id: donate_result.stock_id
-              }, newStockItem).exec(function(err, stock_result) {
-                res.status(200).send({
-                  success: "The item has been updated"
-                });
-              })
-            } else {
-              // Create:
-              var newStock = new Stock(newStockItem);
-              newStock.save(function(err, saved) {
-                newDonateItem["stock_id"] = saved._id;
-                var newDonation = new Donation(newDonateItem);
-                newDonation.save(errTest);
-                res.status(200).send({
-                  success: "New item has been created"
-                });
-              })
-            }
-          })
-        })
+        return;
       }
-    });
+
+      var foundDonor = promiseResults[1];
+      if (!foundDonor) {
+        res.status(400).send({
+          error: "Donor does not exist!"
+        })
+        return;
+      }
+
+      var foundUser = promiseResults[2]
+      if(!foundUser) {
+        res.status(404).send({
+          error: "Contractor is not found!"
+        })
+        return;
+      }
+
+      var barcodeNew = promiseResults[3];
+      if (req.body.barcode) {
+        if (barcodeNew) {
+          barcodeNew.remove();
+        }
+        var newBarcode = new Barcode(newBarcodeItem);
+        newBarcode.save(errTest);
+      }
+
+      Donation.findOneAndUpdate({
+        _id: req.body._id
+      }, newDonateItem).exec(function(err, donateResult) {
+        // Update:
+        if (donateResult) {
+          Stock.findOneAndUpdate({
+            _id: donateResult.stock_id
+          }, newStockItem).exec(function(err, stock_result) {
+            res.status(200).send({
+              success: "The item has been updated"
+            });
+          })
+
+        // Create:
+        } else {
+          var newStock = new Stock(newStockItem);
+          newStock.save(function(err, saved) {
+            newDonateItem["stock_id"] = saved._id;
+            newDonateItem["dn_id"] = req.params.dn_id;
+            var newDonation = new Donation(newDonateItem);
+            newDonation.save(errTest);
+            res.status(200).send({
+              success: "New item has been created"
+            });
+          })
+        }
+      })
+    })
   })
   .delete(function(req, res) {
     var searchKey = req.query.searchKey;

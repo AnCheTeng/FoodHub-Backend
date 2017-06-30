@@ -16,12 +16,12 @@ var serverUrl = "http://localhost:8080";
 // }, callbackFunction);
 
 
-// |========================================|
-// |API: GET /delivery/list                    |
-// |========================================|
-request.get({
-  url: serverUrl + '/delivery/list'
-}, callbackFunction);
+// // |========================================|
+// // |API: GET /delivery/list                    |
+// // |========================================|
+// request.get({
+//   url: serverUrl + '/delivery/list'
+// }, callbackFunction);
 
 // // |========================================|
 // // |API: GET /stock/list                    |
@@ -250,10 +250,10 @@ request.get({
 // // |API: POST /delivery/:dn_id              |
 // // |========================================|
 // request.post({
-//   url: serverUrl + '/delivery/1060001',
+//   url: serverUrl + '/delivery/1060002',
 //   form: {
 //     ic: "12344321",
-//     stock_id: "59428dcbc37d0c88219f92ae",
+//     stock_id: "593762d81cd7de4430c57cd5",
 //     donee_name: "ssd",
 //     contractor: "zizi",
 //     delivery_dt: Date.parse("2017/01/28"),
@@ -262,27 +262,27 @@ request.get({
 //   }
 // }, callbackFunction);
 
-// // |========================================|
-// // |API: POST /donation/:dn_id              |
-// // |========================================|
-// request.post({
-//   url: serverUrl + '/donation/1060001',
-//   form: {
-//     // _id: "594286fb55435f081c8096df",
-//     donor_name: "ssd",
-//     item_name: "花生餅乾",
-//     contractor: "zizi",
-//     area: "台中",
-//     expire_dt: Date.parse("2017/01/28"),
-//     category: "營養品",
-//     weight: 150,
-//     item_unit: "盒",
-//     item_qt: 5,
-//     item_unitprice: 200,
-//     memo: "描述物品",
-//     donate_dt: Date.parse("2016/02/20")
-//   }
-// }, callbackFunction);
+// |========================================|
+// |API: POST /donation/:dn_id              |
+// |========================================|
+request.post({
+  url: serverUrl + '/donation/1060010',
+  form: {
+    // _id: "594286fb55435f081c8096df",
+    donor_name: "鄧安倫",
+    item_name: "吃我棒棒",
+    contractor: "zizi",
+    area: "台中",
+    expire_dt: Date.parse("2017/01/28"),
+    category: "營養品",
+    weight: 150,
+    item_unit: "盒",
+    item_qt: 5,
+    item_unitprice: 200,
+    memo: "描述物品",
+    donate_dt: Date.parse("2016/02/20")
+  }
+}, callbackFunction);
 
 // // |========================================|
 // // |API: GET /donation/max_dnid              |
