@@ -15,7 +15,7 @@ router.route('/max_dvid')
     }).limit(1).exec(function(err, maxResult) {
       if (err) {
         res.status(404).send({
-          warning: "ERROR"
+          warning: "Error!"
         });
       }
 
@@ -52,7 +52,7 @@ router.route('/:dv_id')
         res.status(200).send(result);
       } else {
         res.status(404).send({
-          error: "Item not found",
+          error: "找不到此物品！",
           searchKey: req.query.searchKey,
           searchName: req.params.dv_id,
           theQuery: itemQuery
@@ -81,12 +81,12 @@ router.route('/:dv_id')
       var foundStock = promiseResults[0]
       if (!foundStock) {
         res.status(404).send({
-          error: "Item is not found!"
+          error: "找不到物品！"
         });
         return;
       } else if (req.body.item_qt > foundStock.item_qt) {
         res.status(400).send({
-          error: "Item is not enough!"
+          error: "物品數量不足!"
         });
         return;
       }
@@ -94,7 +94,7 @@ router.route('/:dv_id')
       var foundDonee = promiseResults[1]
       if(!foundDonee) {
         res.status(404).send({
-          error: "Donee is not found!"
+          error: "無此受贈者!"
         });
         return;
       }
@@ -102,7 +102,7 @@ router.route('/:dv_id')
       var foundUser = promiseResults[2]
       if(!foundUser) {
         res.status(404).send({
-          error: "Contractor is not found!"
+          error: "無此承辦人!"
         })
         return;
       }
@@ -121,7 +121,7 @@ router.route('/:dv_id')
       var newDelivery = new Delivery(newDeliveryItem);
       newDelivery.save();
       res.status(200).send({
-        success: "The item has been delivered"
+        success: "物品成功贈出！"
       });
       foundStock.item_qt = foundStock.item_qt - req.body.item_qt;
       if (foundStock.item_qt == 0) {
@@ -131,22 +131,7 @@ router.route('/:dv_id')
       }
 
     })
-    //
-    // Stock.findOne({
-    //   _id: req.body.stock_id
-    // }).exec(function(err, foundStock) {
-    //   if (!foundStock) {
-    //     res.status(404).send({
-    //       error: "Item is not found"
-    //     });
-    //   } else if (req.body.item_qt > foundStock.item_qt) {
-    //     res.status(400).send({
-    //       error: "Item is not enough"
-    //     });
-    //   } else {
-    //
-    //   }
-    // })
+
   })
   // .delete(function(req, res) {
   //   res.status(200).send("HI");

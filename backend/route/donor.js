@@ -23,7 +23,7 @@ router.route('/:donor_name')
         res.status(200).send(result);
       } else {
         res.status(404).send({
-          error: "Donor not found",
+          error: "無此捐贈者！",
           searchKey: req.query.searchKey,
           searchName: req.params.donor_name,
           theQuery: donorQuery
@@ -42,7 +42,7 @@ router.route('/:donor_name')
       newDonor.donor_name = req.params.donor_name;
       newDonor.save();
       res.status(200).send({
-        success: "Donor has been created!"
+        success: "新捐贈者已登入!"
       })
     })
   })
@@ -53,11 +53,11 @@ router.route('/:donor_name')
       if (result) {
         result.remove();
         res.status(200).send({
-          success: "Donor has been deleted"
+          success: "捐贈者已刪除！"
         })
       } else {
         res.status(200).send({
-          success: "Donor not found!"
+          success: "無此捐贈者!"
         })
       }
     })

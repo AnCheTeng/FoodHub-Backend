@@ -12,11 +12,11 @@ router.route('/login/:account')
       if (result) {
         res.status(200).send({
           auth: result.auth,
-          success: "Login successfully!"
+          success: "成功登入!"
         })
       } else {
         res.status(404).send({
-          error: "Who are you?"
+          error: "您哪位？"
         })
       }
     })
@@ -42,7 +42,7 @@ router.route('/:account')
         res.status(200).send(result);
       } else {
         res.status(404).send({
-          error: "User not found",
+          error: "找不到使用者！",
           searchKey: req.query.searchKey,
           searchName: req.params.account,
           theQuery: userQuery
@@ -63,11 +63,11 @@ router.route('/:account')
         newUser.account = req.params.account;
         newUser.save();
         res.status(200).send({
-          success: "User has been created!"
+          success: "新使用者已登入!"
         });
       } else {
         res.status(400).send({
-          error: "Authentication can only be 'admin' or 'user'!"
+          error: "權限只能為'admin'或'user'!"
         });
       }
 
@@ -81,11 +81,11 @@ router.route('/:account')
       if (result) {
         result.remove();
         res.status(200).send({
-          success: "User has been deleted"
+          success: "使用者已刪除！"
         })
       } else {
         res.status(200).send({
-          success: "User not found!"
+          success: "找無此使用者!"
         })
       }
     })

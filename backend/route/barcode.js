@@ -11,7 +11,7 @@ router.route('/:barcode')
       if(result) {
         res.status(200).send(result);
       } else {
-        res.status(404).send({warning: "Barcode not found!"});
+        res.status(404).send({warning: "找不到條碼!"});
       }
     })
   })

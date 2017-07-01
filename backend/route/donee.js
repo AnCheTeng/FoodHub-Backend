@@ -23,7 +23,7 @@ router.route('/:donee_name')
         res.status(200).send(result);
       } else {
         res.status(404).send({
-          error: "Donee not found",
+          error: "找不到此受贈者！",
           searchKey: req.query.searchKey,
           searchName: req.params.donee_name,
           theQuery: doneeQuery
@@ -43,7 +43,7 @@ router.route('/:donee_name')
       newDonee.donee_name = req.params.donee_name;
       newDonee.save();
       res.status(200).send({
-        success: "Donee has been created!"
+        success: "新受贈者已登入!"
       })
     })
 
@@ -55,11 +55,11 @@ router.route('/:donee_name')
       if (result) {
         result.remove();
         res.status(200).send({
-          success: "Donee has been deleted"
+          success: "受贈者已刪除！"
         })
       } else {
         res.status(200).send({
-          success: "Donee not found!"
+          success: "無此受贈者!"
         })
       }
     })

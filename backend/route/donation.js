@@ -16,7 +16,7 @@ router.route('/max_dnid')
     }).limit(1).exec(function(err, maxResult) {
       if (err) {
         res.status(404).send({
-          warning: "ERROR"
+          warning: "Error!"
         });
       }
 
@@ -54,7 +54,7 @@ router.route('/:dn_id')
         res.status(200).send(result);
       } else {
         res.status(404).send({
-          error: "Item not found",
+          error: "找不到此物品！",
           searchKey: req.query.searchKey,
           searchName: req.params.dn_id,
           theQuery: itemQuery
@@ -74,7 +74,7 @@ router.route('/:dn_id')
 
     if (safetyCheck == true) {
       res.status(404).send({
-        error: "Something wrong with Date or quantity or weight or dn_id"
+        error: "有哪裡出錯了！(日期/數量/重量/全贈字號)？！"
       });
       return;
     }
@@ -134,7 +134,7 @@ router.route('/:dn_id')
           parseInt(req.params.dn_id) < parseInt(maxResult[0].dn_id) &&
           !req.body._id) {
         res.status(400).send({
-          error: "dn_id is wrong!"
+          error: "全贈字號有誤!"
         })
         return;
       }
@@ -142,7 +142,7 @@ router.route('/:dn_id')
       var foundDonor = promiseResults[1];
       if (!foundDonor) {
         res.status(400).send({
-          error: "Donor does not exist!"
+          error: "無此捐贈者!"
         })
         return;
       }
@@ -150,7 +150,7 @@ router.route('/:dn_id')
       var foundUser = promiseResults[2]
       if(!foundUser) {
         res.status(404).send({
-          error: "Contractor is not found!"
+          error: "無此承辦人!"
         })
         return;
       }
@@ -173,7 +173,7 @@ router.route('/:dn_id')
             _id: donateResult.stock_id
           }, newStockItem).exec(function(err, stock_result) {
             res.status(200).send({
-              success: "The item has been updated"
+              success: "此物品已成功更新！"
             });
           })
 
@@ -186,7 +186,7 @@ router.route('/:dn_id')
             var newDonation = new Donation(newDonateItem);
             newDonation.save(errTest);
             res.status(200).send({
-              success: "New item has been created"
+              success: "新物品已成功登入！"
             });
           })
         }
@@ -216,12 +216,12 @@ router.route('/:dn_id')
             });
           }
           res.status(200).send({
-            success: "Item has been deleted"
+            success: "此物品已刪除！"
           });
         })
       } else {
         res.status(404).send({
-          error: "Item not found"
+          error: "找不到此物品！"
         });
       }
     });

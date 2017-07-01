@@ -26,7 +26,7 @@ router.route('/:query_attr')
         res.status(200).send(result);
       } else {
         res.status(404).send({
-          error: "Stock not found",
+          error: "找不到此庫存！",
           searchKey: req.query.searchKey,
           searchName: req.params.dn_id,
           theQuery: itemQuery
@@ -41,7 +41,7 @@ router.route('/expire_dt/:days')
 
     if (days > 30 || days < 1) {
       res.status(400).send({
-        warning: "Bad request"
+        warning: "找得日期太遠囉！"
       })
     } else {
 
@@ -58,7 +58,7 @@ router.route('/expire_dt/:days')
           res.status(200).send(result);
         } else {
           res.status(404).send({
-            warning: "All foods are expired within " + days + " days",
+            warning: "沒有在" + days + "天內快過期的食物！",
           });
         }
       });
@@ -78,13 +78,13 @@ router.route('/barcode/:barcode')
             res.status(200).send(stocks);
           } else {
             res.status(404).send({
-              warning: "Stocks not found!"
+              warning: "找不到庫存!"
             });
           }
         })
       } else {
         res.status(404).send({
-          warning: "Barcode not found!"
+          warning: "找無此條碼!"
         });
       }
     })

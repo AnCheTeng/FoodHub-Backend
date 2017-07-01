@@ -266,7 +266,7 @@ var serverUrl = "http://localhost:8080";
 // |API: POST /donation/:dn_id              |
 // |========================================|
 request.post({
-  url: serverUrl + '/donation/1060010',
+  url: serverUrl + '/donation/1060001',
   form: {
     // _id: "594286fb55435f081c8096df",
     donor_name: "鄧安倫",
