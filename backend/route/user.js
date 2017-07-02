@@ -12,6 +12,8 @@ router.route('/login/:account')
       if (result) {
         res.status(200).send({
           auth: result.auth,
+          account: result.account,
+          user_name: result.user_name,
           success: "成功登入!"
         })
       } else {

@@ -90,7 +90,7 @@ router.route('/:dn_id')
       item_unit: req.body.item_unit,
       item_qt: req.body.item_qt,
       item_unitprice: req.body.item_unitprice,
-      memo: req.body.item_qt,
+      memo: req.body.memo,
       donate_dt: req.body.donate_dt
     };
     var newStockItem = {
