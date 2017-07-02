@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>FoodBank - Receipt</title>
+  <link rel="stylesheet" href="file:///{{directory}}/style.css" media="all" />
+</head>
+
+<body>
+  <header class="clearfix">
+    <div id="logo">
+      <img src="file:///{{directory}}/logo1.png">
+    </div>
+    <h2 style="background: url(file:///{{directory}}/dimension.png);">
+      物資捐贈收據<br/> Receipt
+    </h2>
+    <div id="company" class="clearfix">
+      <div>統編 : 26887242</div>
+      <div>電話 : 04-23780266</div>
+      <div>傳真 : 04-23785383</div>
+      <div>郵政劃撥 : 22727219</div>
+      <div>地址 : 台中市南區柳川東路一段88號</div>
+      <div>網站 : <a href="http://www.foodback-taiwan.org.tw">http://www.foodback-taiwan.org.tw</a></div>
+    </div>
+    <div id="project">
+      <div><span>全贈字號 NO</span> {{dn_id}}</div>
+      <div><span>捐贈日期</span> {{donate_dt}}</div>
+      <div><span>統一編號</span> {{ic}}</div>
+      <div><span>捐贈者 / Donor</span> {{donor}}</div>
+      <div><span>身份證字號 / ID</span> {{id_number}}</div>
+      <div><span>地址 / Address</span> {{address}}</div>
+      <div><span>電話 / TEL</span> {{phone}}</div>
+    </div>
+  </header>
+  <main>
+    <table>
+      <thead>
+        <tr>
+          <th class="item_name">財務名稱 / Article</th>
+          <th class="desc">品質及說明 / Qulity And Description</th>
+          <th class="unit">單位 / Unit</th>
+          <th class="qty">數量 / Quantity</th>
+          <th class="remark">備註 / Remark</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#list items}}
+        <tr>
+          <td class="item_name">{{item_name}}</td>
+          <td class="desc">{{desc}}</td>
+          <td class="unit">{{item_unit}}</td>
+          <td class="qty">{{item_qt}}</td>
+          <td class="remark">{{memo}}</td>
+        </tr>
+        {{/list}}
+        <!-- <tr>
+          <td class="item_name">餅乾</td>
+          <td class="desc">Creating a recognizable design solution based on the company's existing visual identity</td>
+          <td class="unit">盒</td>
+          <td class="qty">26</td>
+          <td class="remark">打個備註</td>
+        </tr> -->
+      </tbody>
+    </table>
+  </main>
+  <footer>
+    <div class="desc">
+      依國稅局現行作業規定，本會僅開立實物名稱之收據，由捐贈方自行於年底檢附該收據及足以證明該物資價格之文件，如購買物品捐贈之發票，如購買物品捐贈之發票，或公司生產該捐贈物品之費用資料等文件。逕向國稅局blablabla。
+    </div>
+    <div id="sign">
+      <div>
+        <span>簽章</span>
+        <div class="sign-block"></div>
+      </div>
+      <div>
+        <span>經辦人</span>
+        <div class="sign-block"></div>
+      </div>
+    </div>
+  </footer>
+</body>
+
+</html>

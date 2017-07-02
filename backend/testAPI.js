@@ -1,6 +1,14 @@
 var request = require('request');
 var serverUrl = "http://localhost:8080";
 
+// |========================================|
+// |API: GET /donation/receipt/:dn_id       |
+// |========================================|
+request.get({
+  url: serverUrl + '/donation/receipt/1060001'
+}, callbackFunction);
+
+
 // // |========================================|
 // // |API: GET /stock/barcode/:barcode       |
 // // |========================================|
@@ -262,27 +270,27 @@ var serverUrl = "http://localhost:8080";
 //   }
 // }, callbackFunction);
 
-// |========================================|
-// |API: POST /donation/:dn_id              |
-// |========================================|
-request.post({
-  url: serverUrl + '/donation/1060001',
-  form: {
-    // _id: "594286fb55435f081c8096df",
-    donor_name: "鄧安倫",
-    item_name: "吃我棒棒",
-    contractor: "zizi",
-    area: "台中",
-    expire_dt: Date.parse("2017/01/28"),
-    category: "營養品",
-    weight: 150,
-    item_unit: "盒",
-    item_qt: 5,
-    item_unitprice: 200,
-    memo: "描述物品",
-    donate_dt: Date.parse("2016/02/20")
-  }
-}, callbackFunction);
+// // |========================================|
+// // |API: POST /donation/:dn_id              |
+// // |========================================|
+// request.post({
+//   url: serverUrl + '/donation/1060001',
+//   form: {
+//     // _id: "594286fb55435f081c8096df",
+//     donor_name: "鄧安倫",
+//     item_name: "吃我棒棒",
+//     contractor: "zizi",
+//     area: "台中",
+//     expire_dt: Date.parse("2017/01/28"),
+//     category: "營養品",
+//     weight: 150,
+//     item_unit: "盒",
+//     item_qt: 5,
+//     item_unitprice: 200,
+//     memo: "描述物品",
+//     donate_dt: Date.parse("2016/02/20")
+//   }
+// }, callbackFunction);
 
 // // |========================================|
 // // |API: GET /donation/max_dnid              |

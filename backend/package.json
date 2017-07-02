@@ -5,7 +5,9 @@
     "express": "~4.13.4",
     "mongoose": "~4.4.8",
     "body-parser": "~1.15.0",
-    "request": "~2.79.0"
+    "request": "~2.79.0",
+    "handlebars": "~4.0.10",
+    "html-pdf": "~2.1.0"
   },
   "description": "Foodbank-Project"
 }

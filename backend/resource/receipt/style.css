@@ -1,0 +1,181 @@
+* {
+  --margin-bound: 20px;
+}
+
+body {
+  position: relative;
+  margin: 0 auto;
+  color: #001028;
+  background: #FFFFFF;
+  font-family: Microsoft YaHei, Tahoma, Helvetica, Arial, "\5b8b\4f53", sans-serif;
+  font-size: 12px;
+  font-family: Arial;
+}
+
+.clearfix:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+a {
+  color: #5D6975;
+  text-decoration: underline;
+}
+
+header {
+  padding: 10px 0;
+  margin-bottom: 30px;
+}
+
+#logo {
+  /*display: flex;
+  justify-content: center;*/
+  /*align-items: center;*/
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+#logo img {
+  width: 50%;
+  /*width: 300px;*/
+  /*height: 100px;*/
+}
+
+h2 {
+  border-top: 1px solid #5D6975;
+  border-bottom: 1px solid #5D6975;
+  color: #5D6975;
+  font-size: 2em;
+  line-height: 1.4em;
+  font-weight: normal;
+  text-align: center;
+  margin: 0 0 20px 0;
+  letter-spacing: 3px;
+  font-weight: bold;
+}
+
+#project {
+  float: left;
+  font-size: 1.2em;
+  margin-left: var(--margin-bound);
+  font-weight: bold;
+}
+
+#project span {
+  color: #5D6975;
+  text-align: left;
+  margin-right: var(--margin-bound);
+  display: inline-block;
+  width: 100px;
+}
+
+#company {
+  float: right;
+  text-align: right;
+  font-size: 1.2em;
+  margin-right: var(--margin-bound);
+}
+
+#project div,
+#company div {
+  white-space: nowrap;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  font-size: 1.25em;
+}
+
+table tr:nth-child(2n-1) td {
+  background: #F5F5F5;
+}
+
+table th,
+table td {
+  text-align: center;
+}
+
+table th {
+  padding: 5px 20px;
+  color: #5D6975;
+  border-bottom: 1px solid #C1CED9;
+  white-space: nowrap;
+  font-weight: normal;
+}
+
+.item_name,
+.desc {
+  text-align: left;
+}
+
+.unit,
+.qty,
+.remark {
+  text-align: right;
+}
+
+.remark {
+  width: 15%;
+}
+
+table td {
+  padding: 20px;
+  text-align: center;
+}
+
+table td.item_name,
+table td.desc {
+  vertical-align: top;
+}
+
+table td.grand {
+  border-top: 1px solid #5D6975;
+}
+
+footer {
+  color: #5D6975;
+  width: 100%;
+  bottom: 0;
+  border-top: 1px solid #C1CED9;
+  padding: 10px 0;
+}
+
+footer div {
+  display: inline-block;
+}
+
+footer .desc {
+  width: 50%;
+  padding: var(--margin-bound);
+}
+
+#sign {
+  margin-left: 80px;
+  margin-top: 40px;
+}
+
+#sign div {
+  margin: 0 10px;
+}
+
+#sign span {
+  font-size: 2em;
+}
+
+.sign-block {
+  width: 160px;
+  border-bottom: 1px solid black;
+  margin: 0 6px;
+}
+
+.title {
+  margin-left: 50px;
+  text-align: center;
+}
+
+.subtitle {
+  font-size: 1em;
+}

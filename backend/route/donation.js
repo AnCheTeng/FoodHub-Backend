@@ -1,6 +1,12 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
+var fs = require('fs');
+var Handlebars = require('handlebars');
+var pdf = require('html-pdf');
+var receiptDir = __dirname.substring(0, __dirname.length - 5) + "resource/receipt";
+var source = fs.readFileSync(receiptDir + "/index.html", 'utf8');
+
 var router = express.Router();
 
 var Donation = require('../model/Donation');
@@ -39,7 +45,6 @@ router.route('/list')
       res.status(200).send(result);
     });
   })
-
 
 router.route('/:dn_id')
   .get(function(req, res) {
@@ -131,8 +136,8 @@ router.route('/:dn_id')
     Promise.all(promiseList).then(function(promiseResults) {
       var maxResult = promiseResults[0];
       if (maxResult.length > 0 &&
-          parseInt(req.params.dn_id) < parseInt(maxResult[0].dn_id) &&
-          !req.body._id) {
+        parseInt(req.params.dn_id) < parseInt(maxResult[0].dn_id) &&
+        !req.body._id) {
         res.status(400).send({
           error: "全贈字號有誤!"
         })
@@ -148,7 +153,7 @@ router.route('/:dn_id')
       }
 
       var foundUser = promiseResults[2]
-      if(!foundUser) {
+      if (!foundUser) {
         res.status(404).send({
           error: "無此承辦人!"
         })
@@ -177,7 +182,7 @@ router.route('/:dn_id')
             });
           })
 
-        // Create:
+          // Create:
         } else {
           var newStock = new Stock(newStockItem);
           newStock.save(function(err, saved) {
@@ -227,6 +232,67 @@ router.route('/:dn_id')
     });
   })
 
+router.route('/receipt/:dn_id')
+  .get(function(req, res) {
+    Donation.find({
+      dn_id: req.params.dn_id
+    }).exec(function(err, foundItems) {
+      if(foundItems.length==0 || err){
+        res.status(404).send({
+          warning: "此全物字號無捐贈品項！"
+        });
+        return;
+      }
+      Donor.findOne({
+        donor_name: foundItems[0].donor_name
+      }).exec(function(err, foundDonor) {
+        context = {
+          directory: receiptDir,
+          dn_id: req.params.dn_id,
+          donate_dt: foundItems[0].donate_dt,
+          ic: foundDonor.ic,
+          donor: foundDonor.donor_name,
+          id_number: foundDonor.ic,
+          address: foundDonor.address,
+          phone: foundDonor.phone,
+          items: []
+        }
+        for (var i = 0; i < foundItems.length; i++) {
+          context.items.push({
+            item_name: foundItems[i].item_name,
+            desc: "Category: " + foundItems[i].category,
+            item_unit: foundItems[i].item_unit,
+            item_qt: foundItems[i].item_qt,
+            memo: foundItems[i].memo
+          })
+        }
+        Handlebars.registerHelper('list', function(items, options) {
+          var out = "";
+          for (var i = 0, l = items.length; i < l; i++) {
+            out = out + options.fn(items[i]);
+          }
+          return out
+        });
+        var template = Handlebars.compile(source);
+        var html = template(context);
+
+        var options = {
+          format: 'A3',
+          border: "0.5cm",
+          base: receiptDir
+        };
+        pdf.create(html, options).toFile(receiptDir + "/results/receipt-" + context.dn_id + '.pdf', function(err, result) {
+          if (err) return console.log(err);
+          var file = fs.createReadStream(receiptDir + "/results/receipt-" + context.dn_id + '.pdf');
+          var stat = fs.statSync(receiptDir + "/results/receipt-" + context.dn_id + '.pdf');
+          res.setHeader('Content-Length', stat.size);
+          res.setHeader('Content-Type', 'application/pdf');
+          res.setHeader('Content-Disposition', 'attachment; filename=receipt.pdf');
+          file.pipe(res);
+        });
+      })
+    })
+  })
 
 function wrong_dnid(new_dn_id) {
   new_dn_id = new_dn_id + "";
